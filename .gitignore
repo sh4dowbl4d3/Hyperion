@@ -30,3 +30,6 @@ docker-compose.override.yml
 .vscode/
 *.swp
 .DS_Store
+
+# opencode local
+.opencode
