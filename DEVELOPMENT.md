@@ -19,7 +19,7 @@ Services:
 | Service | Port | Notes |
 | --- | --- | --- |
 | frontend | 5173 | Vite dev server (API proxied to backend) |
-| backend | 8080 | REST API under `/api/v1` |
+| backend | 8080 (host: `BACKEND_HOST_PORT`) | REST API under `/api/v1` |
 | postgres | internal only | reachable on the compose network as `postgres` |
 
 Reset everything including data:
