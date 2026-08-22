@@ -22,6 +22,9 @@ func (f *fakeStore) Create(_ context.Context, email, passwordHash, role string) 
 	if f.createErr != nil {
 		return nil, f.createErr
 	}
+	if _, exists := f.usersByEmail[email]; exists {
+		return nil, users.ErrEmailTaken
+	}
 	u := &users.User{ID: "id-" + email, Email: email, PasswordHash: passwordHash, Role: role}
 	f.usersByEmail[email] = u
 	return u, nil
@@ -101,7 +104,7 @@ func TestRegisterValidationFailures(t *testing.T) {
 	}
 }
 
-func TestRegisterDuplicateEmailRejectedBeforeHashing(t *testing.T) {
+func TestRegisterPropagatesEmailTaken(t *testing.T) {
 	store := newFakeStore()
 	svc := newTestService(t, store)
 
