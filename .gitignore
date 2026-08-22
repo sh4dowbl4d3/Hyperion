@@ -1,0 +1,32 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Go
+backend/bin/
+backend/tmp/
+*.exe
+*.test
+*.out
+coverage.txt
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# Docker local overrides
+docker-compose.override.yml
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+.DS_Store
