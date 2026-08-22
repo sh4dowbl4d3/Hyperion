@@ -28,6 +28,8 @@ services:
       SERVER_ADDR: ":8080"
       LOG_LEVEL: ${LOG_LEVEL}
       DATABASE_DSN: ${DATABASE_DSN}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_TTL: ${JWT_TTL}
     ports:
       - "127.0.0.1:${BACKEND_HOST_PORT:-8080}:8080"
     networks:

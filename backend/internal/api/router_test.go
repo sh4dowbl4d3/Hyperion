@@ -13,7 +13,7 @@ import (
 )
 
 func newTestRouter(db DatabaseChecker) *gin.Engine {
-	return NewRouter(slog.New(slog.NewTextHandler(testWriter{}, nil)), db)
+	return NewRouter(Deps{Log: slog.New(slog.NewTextHandler(testWriter{}, nil)), DB: db})
 }
 
 type fakeDatabase struct {

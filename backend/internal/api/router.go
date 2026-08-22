@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"moderndvwa/backend/internal/auth"
 	"moderndvwa/backend/internal/httpx"
 	"moderndvwa/backend/internal/middleware"
 )
@@ -23,7 +24,16 @@ type DatabaseChecker interface {
 	Ping(ctx context.Context) error
 }
 
-func NewRouter(log *slog.Logger, db DatabaseChecker) *gin.Engine {
+type Deps struct {
+	Log    *slog.Logger
+	DB     DatabaseChecker
+	Auth   *auth.Service
+	Tokens *auth.TokenService
+	Users  auth.UserStore
+}
+
+func NewRouter(deps Deps) *gin.Engine {
+	log := deps.Log
 	gin.SetMode(gin.ReleaseMode)
 
 	r := gin.New()
@@ -42,7 +52,10 @@ func NewRouter(log *slog.Logger, db DatabaseChecker) *gin.Engine {
 
 	v1 := r.Group("/api/v1")
 	registerHealth(v1)
-	registerReadiness(v1, db)
+	registerReadiness(v1, deps.DB)
+	if deps.Auth != nil && deps.Tokens != nil && deps.Users != nil {
+		RegisterAuthRoutes(v1, deps.Auth, deps.Tokens, deps.Users, log)
+	}
 
 	return r
 }

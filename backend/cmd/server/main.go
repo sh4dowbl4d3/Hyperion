@@ -8,10 +8,12 @@ import (
 	"syscall"
 
 	"moderndvwa/backend/internal/api"
+	"moderndvwa/backend/internal/auth"
 	"moderndvwa/backend/internal/config"
 	"moderndvwa/backend/internal/database"
 	"moderndvwa/backend/internal/httpx"
 	"moderndvwa/backend/internal/logging"
+	"moderndvwa/backend/internal/users"
 	"moderndvwa/backend/migrations"
 )
 
@@ -56,7 +58,17 @@ func run() error {
 		log.Info("migrations applied", slog.Any("applied", applied))
 	}
 
-	router := api.NewRouter(log, pool)
+	userRepo := users.NewRepository(pool)
+	authService := auth.NewService(userRepo, log)
+	tokenService := auth.NewTokenService(cfg.JWTSecret, cfg.JWTTTL)
+
+	router := api.NewRouter(api.Deps{
+		Log:    log,
+		DB:     pool,
+		Auth:   authService,
+		Tokens: tokenService,
+		Users:  userRepo,
+	})
 	server := httpx.NewServer(cfg.Addr, router, log)
 
 	log.Info("starting moderndvwa api",
