@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
 )
 
 type Config struct {
@@ -11,11 +12,19 @@ type Config struct {
 	Addr        string
 	LogLevel    string
 	DatabaseDSN string
+	JWTSecret   string
+	JWTTTL      time.Duration
 }
 
 const (
 	EnvDevelopment = "development"
 	EnvProduction  = "production"
+
+	minJWTSecretBytes = 32
+	defaultJWTTTL     = time.Hour
+
+	jwtSecretEnv = "JWT_SECRET"
+	jwtTTLEnv    = "JWT_TTL"
 )
 
 var validLogLevels = map[string]bool{
@@ -31,6 +40,7 @@ func Load(lookup func(string) string) (*Config, error) {
 		Addr:        valueOrDefault(lookup, "SERVER_ADDR", ":8080"),
 		LogLevel:    strings.ToLower(valueOrDefault(lookup, "LOG_LEVEL", "info")),
 		DatabaseDSN: valueOrDefault(lookup, "DATABASE_DSN", ""),
+		JWTSecret:   strings.TrimSpace(lookup(jwtSecretEnv)),
 	}
 
 	if cfg.Env != EnvDevelopment && cfg.Env != EnvProduction {
@@ -44,6 +54,22 @@ func Load(lookup func(string) string) (*Config, error) {
 	}
 	if cfg.DatabaseDSN == "" {
 		return nil, errors.New("DATABASE_DSN is required")
+	}
+	if len(cfg.JWTSecret) < minJWTSecretBytes {
+		return nil, fmt.Errorf("%s must be at least %d bytes (generate one with: openssl rand -base64 48)", jwtSecretEnv, minJWTSecretBytes)
+	}
+	ttl := strings.TrimSpace(lookup(jwtTTLEnv))
+	if ttl == "" {
+		cfg.JWTTTL = defaultJWTTTL
+	} else {
+		parsed, err := time.ParseDuration(ttl)
+		if err != nil {
+			return nil, fmt.Errorf("invalid %s %q: must be a duration like 15m or 1h", jwtTTLEnv, ttl)
+		}
+		if parsed < time.Minute {
+			return nil, fmt.Errorf("invalid %s %q: must be at least 1m", jwtTTLEnv, ttl)
+		}
+		cfg.JWTTTL = parsed
 	}
 	return cfg, nil
 }

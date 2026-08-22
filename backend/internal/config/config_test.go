@@ -3,15 +3,19 @@ package config
 import (
 	"strings"
 	"testing"
+	"time"
 )
 
 func envLookup(env map[string]string) func(string) string {
 	return func(key string) string { return env[key] }
 }
 
+const testSecret = "test-secret-0123456789abcdef0123456789abcdef"
+
 func TestLoadDefaults(t *testing.T) {
 	env := map[string]string{
 		"DATABASE_DSN": "postgres://moderndvwa:devpassword@localhost:5432/moderndvwa?sslmode=disable",
+		"JWT_SECRET":   testSecret,
 	}
 	cfg, err := Load(envLookup(env))
 	if err != nil {
@@ -29,6 +33,12 @@ func TestLoadDefaults(t *testing.T) {
 	if cfg.DatabaseDSN != env["DATABASE_DSN"] {
 		t.Errorf("DatabaseDSN = %q, want %q", cfg.DatabaseDSN, env["DATABASE_DSN"])
 	}
+	if cfg.JWTSecret != testSecret {
+		t.Errorf("JWTSecret = %q, want the configured value", cfg.JWTSecret)
+	}
+	if cfg.JWTTTL != time.Hour {
+		t.Errorf("JWTTTL = %v, want default 1h", cfg.JWTTTL)
+	}
 }
 
 func TestLoadFromEnvironment(t *testing.T) {
@@ -37,6 +47,8 @@ func TestLoadFromEnvironment(t *testing.T) {
 		"SERVER_ADDR":  "127.0.0.1:9090",
 		"LOG_LEVEL":    " DEBUG ",
 		"DATABASE_DSN": "postgres://u:p@db:5432/x",
+		"JWT_SECRET":   testSecret,
+		"JWT_TTL":      "15m",
 	}
 	cfg, err := Load(envLookup(env))
 	if err != nil {
@@ -51,6 +63,9 @@ func TestLoadFromEnvironment(t *testing.T) {
 	if cfg.LogLevel != "debug" {
 		t.Errorf("LogLevel = %q, want debug (trimmed and lowercased)", cfg.LogLevel)
 	}
+	if cfg.JWTTTL != 15*time.Minute {
+		t.Errorf("JWTTTL = %v, want 15m", cfg.JWTTTL)
+	}
 }
 
 func TestLoadInvalidValues(t *testing.T) {
@@ -59,9 +74,24 @@ func TestLoadInvalidValues(t *testing.T) {
 		env  map[string]string
 		want string
 	}{
-		{"missing dsn", map[string]string{}, "DATABASE_DSN"},
-		{"invalid env", map[string]string{"APP_ENV": "staging"}, "APP_ENV"},
-		{"invalid log level", map[string]string{"LOG_LEVEL": "verbose"}, "LOG_LEVEL"},
+		{"missing dsn", map[string]string{"JWT_SECRET": testSecret}, "DATABASE_DSN"},
+		{"invalid env", map[string]string{"APP_ENV": "staging", "JWT_SECRET": testSecret}, "APP_ENV"},
+		{"invalid log level", map[string]string{"LOG_LEVEL": "verbose", "JWT_SECRET": testSecret}, "LOG_LEVEL"},
+		{"missing jwt secret", map[string]string{"DATABASE_DSN": "postgres://u:p@db/x"}, "JWT_SECRET"},
+		{"short jwt secret", map[string]string{
+			"DATABASE_DSN": "postgres://u:p@db/x",
+			"JWT_SECRET":   "too-short",
+		}, "JWT_SECRET"},
+		{"bad jwt ttl", map[string]string{
+			"DATABASE_DSN": "postgres://u:p@db/x",
+			"JWT_SECRET":   testSecret,
+			"JWT_TTL":      "soon",
+		}, "JWT_TTL"},
+		{"zero jwt ttl", map[string]string{
+			"DATABASE_DSN": "postgres://u:p@db/x",
+			"JWT_SECRET":   testSecret,
+			"JWT_TTL":      "0s",
+		}, "JWT_TTL"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
