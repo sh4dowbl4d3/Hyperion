@@ -7,9 +7,10 @@ import (
 )
 
 type Config struct {
-	Env      string
-	Addr     string
-	LogLevel string
+	Env         string
+	Addr        string
+	LogLevel    string
+	DatabaseDSN string
 }
 
 const (
@@ -26,9 +27,10 @@ var validLogLevels = map[string]bool{
 
 func Load(lookup func(string) string) (*Config, error) {
 	cfg := &Config{
-		Env:      valueOrDefault(lookup, "APP_ENV", EnvDevelopment),
-		Addr:     valueOrDefault(lookup, "SERVER_ADDR", ":8080"),
-		LogLevel: strings.ToLower(valueOrDefault(lookup, "LOG_LEVEL", "info")),
+		Env:         valueOrDefault(lookup, "APP_ENV", EnvDevelopment),
+		Addr:        valueOrDefault(lookup, "SERVER_ADDR", ":8080"),
+		LogLevel:    strings.ToLower(valueOrDefault(lookup, "LOG_LEVEL", "info")),
+		DatabaseDSN: valueOrDefault(lookup, "DATABASE_DSN", ""),
 	}
 
 	if cfg.Env != EnvDevelopment && cfg.Env != EnvProduction {
@@ -39,6 +41,9 @@ func Load(lookup func(string) string) (*Config, error) {
 	}
 	if !validLogLevels[cfg.LogLevel] {
 		return nil, fmt.Errorf("invalid LOG_LEVEL %q: must be debug, info, warn or error", cfg.LogLevel)
+	}
+	if cfg.DatabaseDSN == "" {
+		return nil, errors.New("DATABASE_DSN is required")
 	}
 	return cfg, nil
 }
