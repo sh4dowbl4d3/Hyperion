@@ -4,9 +4,12 @@ package tests
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"os"
 	"testing"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"moderndvwa/backend/internal/database"
@@ -34,17 +37,8 @@ func TestMigrationsApplyIdempotently(t *testing.T) {
 	ctx := context.Background()
 	fsys := migrations.FS()
 
-	all, err := database.LoadMigrations(fsys)
-	if err != nil {
-		t.Fatalf("load migrations: %v", err)
-	}
-
-	applied, err := database.MigrateUp(ctx, pool, fsys)
-	if err != nil {
+	if _, err := database.MigrateUp(ctx, pool, fsys); err != nil {
 		t.Fatalf("first MigrateUp: %v", err)
-	}
-	if len(applied) != len(all) {
-		t.Fatalf("first run applied %d migrations, want %d", len(applied), len(all))
 	}
 
 	reapplied, err := database.MigrateUp(ctx, pool, fsys)
@@ -52,7 +46,64 @@ func TestMigrationsApplyIdempotently(t *testing.T) {
 		t.Fatalf("second MigrateUp: %v", err)
 	}
 	if len(reapplied) != 0 {
-		t.Fatalf("second run applied %d migrations, want 0 (migrations must be idempotent)", len(reapplied))
+		t.Fatalf("consecutive run applied %d migrations, want 0 (migrations must be idempotent)", len(reapplied))
+	}
+}
+
+func TestFreshDatabaseAppliesAllMigrations(t *testing.T) {
+	adminDSN := os.Getenv("TEST_DATABASE_DSN")
+	if adminDSN == "" {
+		t.Skip("TEST_DATABASE_DSN not set; skipping database integration test")
+	}
+	ctx := context.Background()
+	fsys := migrations.FS()
+
+	cfg, err := pgxpool.ParseConfig(adminDSN)
+	if err != nil {
+		t.Fatalf("parse admin dsn: %v", err)
+	}
+
+	suffix := make([]byte, 6)
+	if _, err := rand.Read(suffix); err != nil {
+		t.Fatalf("generate database suffix: %v", err)
+	}
+	tmpName := "moderndvwa_it_" + hex.EncodeToString(suffix)
+
+	adminCfg := cfg.Copy()
+	adminCfg.ConnConfig.Database = "postgres"
+	adminPool, err := pgxpool.NewWithConfig(ctx, adminCfg)
+	if err != nil {
+		t.Fatalf("connect admin pool: %v", err)
+	}
+	defer adminPool.Close()
+
+	quoted := pgx.Identifier{tmpName}.Sanitize()
+	if _, err := adminPool.Exec(ctx, "CREATE DATABASE "+quoted); err != nil {
+		t.Fatalf("create throwaway database: %v", err)
+	}
+
+	freshCfg := cfg.Copy()
+	freshCfg.ConnConfig.Database = tmpName
+	pool, err := pgxpool.NewWithConfig(ctx, freshCfg)
+	if err != nil {
+		t.Fatalf("connect fresh database: %v", err)
+	}
+	defer func() {
+		pool.Close()
+		_, _ = adminPool.Exec(context.Background(), "DROP DATABASE "+quoted+" WITH (FORCE)")
+	}()
+
+	all, err := database.LoadMigrations(fsys)
+	if err != nil {
+		t.Fatalf("load migrations: %v", err)
+	}
+
+	applied, err := database.MigrateUp(ctx, pool, fsys)
+	if err != nil {
+		t.Fatalf("MigrateUp on pristine database: %v", err)
+	}
+	if len(applied) != len(all) {
+		t.Fatalf("applied %d migrations on pristine database, want %d", len(applied), len(all))
 	}
 }
 
