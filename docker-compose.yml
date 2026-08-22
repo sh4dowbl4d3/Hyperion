@@ -21,6 +21,22 @@ services:
       start_period: 5s
     restart: unless-stopped
 
+  backend:
+    build: ./backend
+    environment:
+      APP_ENV: production
+      SERVER_ADDR: ":8080"
+      LOG_LEVEL: ${LOG_LEVEL}
+      DATABASE_DSN: ${DATABASE_DSN}
+    ports:
+      - "127.0.0.1:8080:8080"
+    networks:
+      - labs-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
 networks:
   labs-net:
     driver: bridge
