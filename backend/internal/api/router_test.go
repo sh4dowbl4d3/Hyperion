@@ -1,7 +1,9 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
@@ -10,16 +12,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func newTestRouter() *gin.Engine {
-	return NewRouter(slog.New(slog.NewTextHandler(testWriter{}, nil)))
+func newTestRouter(db DatabaseChecker) *gin.Engine {
+	return NewRouter(slog.New(slog.NewTextHandler(testWriter{}, nil)), db)
 }
+
+type fakeDatabase struct {
+	pingErr error
+}
+
+func (f *fakeDatabase) Ping(ctx context.Context) error { return f.pingErr }
 
 type testWriter struct{}
 
 func (testWriter) Write(p []byte) (int, error) { return len(p), nil }
 
 func TestHealthEndpoint(t *testing.T) {
-	r := newTestRouter()
+	r := newTestRouter(nil)
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/healthz", nil)
 	rec := httptest.NewRecorder()
 
@@ -49,7 +57,7 @@ func TestHealthEndpoint(t *testing.T) {
 }
 
 func TestUnknownRouteReturnsErrorEnvelope(t *testing.T) {
-	r := newTestRouter()
+	r := newTestRouter(nil)
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/does-not-exist", nil)
 	rec := httptest.NewRecorder()
 
@@ -74,7 +82,7 @@ func TestUnknownRouteReturnsErrorEnvelope(t *testing.T) {
 }
 
 func TestMethodNotAllowedReturnsErrorEnvelope(t *testing.T) {
-	r := newTestRouter()
+	r := newTestRouter(nil)
 	req := httptest.NewRequest(http.MethodDelete, "/api/v1/healthz", nil)
 	rec := httptest.NewRecorder()
 
@@ -96,7 +104,7 @@ func TestMethodNotAllowedReturnsErrorEnvelope(t *testing.T) {
 }
 
 func TestRequestIDGeneratedAndEchoed(t *testing.T) {
-	r := newTestRouter()
+	r := newTestRouter(nil)
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/healthz", nil)
 	rec := httptest.NewRecorder()
 
@@ -109,7 +117,7 @@ func TestRequestIDGeneratedAndEchoed(t *testing.T) {
 }
 
 func TestRequestIDPreservedFromClient(t *testing.T) {
-	r := newTestRouter()
+	r := newTestRouter(nil)
 	req := httptest.NewRequest(http.MethodGet, "/api/v1/healthz", nil)
 	req.Header.Set("X-Request-Id", "trace-abc-123")
 	rec := httptest.NewRecorder()
@@ -118,5 +126,65 @@ func TestRequestIDPreservedFromClient(t *testing.T) {
 
 	if got := rec.Header().Get("X-Request-Id"); got != "trace-abc-123" {
 		t.Errorf("X-Request-Id = %q, want client-supplied value preserved", got)
+	}
+}
+
+func readyzBody(t *testing.T, rec *httptest.ResponseRecorder) (int, map[string]any) {
+	t.Helper()
+	var body struct {
+		Status string         `json:"status"`
+		Checks map[string]any `json:"checks"`
+	}
+	if err := json.Unmarshal(rec.Body.Bytes(), &body); err != nil {
+		t.Fatalf("response body is not valid JSON: %v", err)
+	}
+	return rec.Code, body.Checks
+}
+
+func TestReadyzReportsOkWhenDatabaseHealthy(t *testing.T) {
+	r := newTestRouter(&fakeDatabase{})
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/readyz", nil)
+	rec := httptest.NewRecorder()
+
+	r.ServeHTTP(rec, req)
+
+	code, checks := readyzBody(t, rec)
+	if code != http.StatusOK {
+		t.Errorf("status = %d, want %d", code, http.StatusOK)
+	}
+	if checks["database"] != "ok" {
+		t.Errorf("checks.database = %v, want ok", checks["database"])
+	}
+}
+
+func TestReadyzUnavailableWhenDatabaseFails(t *testing.T) {
+	r := newTestRouter(&fakeDatabase{pingErr: errors.New("connection refused")})
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/readyz", nil)
+	rec := httptest.NewRecorder()
+
+	r.ServeHTTP(rec, req)
+
+	code, checks := readyzBody(t, rec)
+	if code != http.StatusServiceUnavailable {
+		t.Errorf("status = %d, want %d", code, http.StatusServiceUnavailable)
+	}
+	if checks["database"] != "error" {
+		t.Errorf("checks.database = %v, want error", checks["database"])
+	}
+}
+
+func TestReadyzUnavailableWithoutDatabase(t *testing.T) {
+	r := newTestRouter(nil)
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/readyz", nil)
+	rec := httptest.NewRecorder()
+
+	r.ServeHTTP(rec, req)
+
+	code, checks := readyzBody(t, rec)
+	if code != http.StatusServiceUnavailable {
+		t.Errorf("status = %d, want %d", code, http.StatusServiceUnavailable)
+	}
+	if checks["database"] != "not_configured" {
+		t.Errorf("checks.database = %v, want not_configured", checks["database"])
 	}
 }
