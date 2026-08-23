@@ -16,6 +16,7 @@ import (
 	"moderndvwa/backend/internal/labs"
 	"moderndvwa/backend/internal/labs/idor"
 	"moderndvwa/backend/internal/labs/jwtlab"
+	"moderndvwa/backend/internal/labs/race"
 	"moderndvwa/backend/internal/labs/ssrf"
 	"moderndvwa/backend/internal/labs/sqli"
 	"moderndvwa/backend/internal/labs/xss"
@@ -92,6 +93,9 @@ func run() error {
 	}
 	log.Info("internal lab service listening", slog.String("base_url", internalBaseURL))
 	registry.MustRegister(ssrf.NewLab(ssrf.NewHTTPFetcher(), progressStore, internalBaseURL))
+
+	raceStore := race.NewStore(pool)
+	registry.MustRegister(race.NewLab(raceStore, progressStore))
 
 	if err := catalogRepo.Seed(ctx, registryMetas(registry)); err != nil {
 		return err
