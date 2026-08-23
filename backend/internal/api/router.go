@@ -10,6 +10,7 @@ import (
 
 	"moderndvwa/backend/internal/auth"
 	"moderndvwa/backend/internal/httpx"
+	"moderndvwa/backend/internal/labs"
 	"moderndvwa/backend/internal/middleware"
 )
 
@@ -25,11 +26,14 @@ type DatabaseChecker interface {
 }
 
 type Deps struct {
-	Log    *slog.Logger
-	DB     DatabaseChecker
-	Auth   *auth.Service
-	Tokens *auth.TokenService
-	Users  auth.UserStore
+	Log      *slog.Logger
+	DB       DatabaseChecker
+	Auth     *auth.Service
+	Tokens   *auth.TokenService
+	Users    auth.UserStore
+	Registry *labs.Registry
+	Catalog  CatalogSource
+	Progress ProgressSource
 }
 
 func NewRouter(deps Deps) *gin.Engine {
@@ -56,8 +60,26 @@ func NewRouter(deps Deps) *gin.Engine {
 	if deps.Auth != nil && deps.Tokens != nil && deps.Users != nil {
 		RegisterAuthRoutes(v1, deps.Auth, deps.Tokens, deps.Users, log)
 	}
+	if deps.Tokens != nil && deps.Catalog != nil && deps.Progress != nil {
+		RegisterLabRoutes(v1, deps.Tokens, deps.Catalog, deps.Progress, log)
+	}
+	if deps.Registry != nil && deps.Tokens != nil {
+		mountLabTargets(v1, deps.Registry, deps.Tokens, log)
+	}
 
 	return r
+}
+
+func mountLabTargets(v1 *gin.RouterGroup, registry *labs.Registry, tokens *auth.TokenService, log *slog.Logger) {
+	targetsRoot := v1.Group("", middleware.Authenticate(tokens))
+	for _, lab := range registry.All() {
+		meta := lab.Meta()
+		group := targetsRoot.Group("/targets/" + meta.Slug)
+		if err := lab.RegisterRoutes(group); err != nil {
+			log.Error("lab route registration failed", slog.String("slug", meta.Slug), slog.String("error", err.Error()))
+			panic("lab " + meta.Slug + " failed to register routes: " + err.Error())
+		}
+	}
 }
 
 func registerHealth(rg *gin.RouterGroup) {

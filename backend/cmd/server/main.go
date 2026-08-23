@@ -12,6 +12,7 @@ import (
 	"moderndvwa/backend/internal/config"
 	"moderndvwa/backend/internal/database"
 	"moderndvwa/backend/internal/httpx"
+	"moderndvwa/backend/internal/labs"
 	"moderndvwa/backend/internal/logging"
 	"moderndvwa/backend/internal/users"
 	"moderndvwa/backend/migrations"
@@ -62,12 +63,23 @@ func run() error {
 	authService := auth.NewService(userRepo, log)
 	tokenService := auth.NewTokenService(cfg.JWTSecret, cfg.JWTTTL)
 
+	registry := labs.NewRegistry()
+	catalogRepo := labs.NewCatalogRepository(pool)
+	progressStore := labs.NewProgressStore(pool)
+
+	if err := catalogRepo.Seed(ctx, registryMetas(registry)); err != nil {
+		return err
+	}
+
 	router := api.NewRouter(api.Deps{
-		Log:    log,
-		DB:     pool,
-		Auth:   authService,
-		Tokens: tokenService,
-		Users:  userRepo,
+		Log:      log,
+		DB:       pool,
+		Auth:     authService,
+		Tokens:   tokenService,
+		Users:    userRepo,
+		Registry: registry,
+		Catalog:  catalogRepo,
+		Progress: progressStore,
 	})
 	server := httpx.NewServer(cfg.Addr, router, log)
 
