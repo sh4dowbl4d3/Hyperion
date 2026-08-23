@@ -1,0 +1,1 @@
+ALTER TABLE labs ADD COLUMN hints jsonb NOT NULL DEFAULT '[]';

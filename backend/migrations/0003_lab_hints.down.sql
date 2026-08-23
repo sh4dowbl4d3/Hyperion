@@ -1,0 +1,1 @@
+ALTER TABLE labs DROP COLUMN hints;
