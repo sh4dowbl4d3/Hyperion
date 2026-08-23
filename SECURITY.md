@@ -57,6 +57,33 @@ If you find an *unintentional* vulnerability — one that breaks the isolation
 rules above — please open an issue describing reproduction steps. Unintentional
 vulnerabilities are treated as high-priority bugs.
 
+## Security Review Checklist (MVP release)
+
+Reviewed at the end of the 3-day sprint:
+
+- [x] No secrets in git: `.env` gitignored and untracked; only `.env.example`
+      with placeholders is committed.
+- [x] Platform JWT secret requires ≥32 bytes at startup (`config.Load`).
+- [x] Weak lab secret (`"secret"`) exists only inside `internal/labs/jwtlab`;
+      no platform code references it.
+- [x] JWT lab flow fully isolated: own subject namespace, own secrets, own
+      `X-Lab-Badge` header; platform middleware untouched (tampered platform
+      token verified to still return 401).
+- [x] All lab target routes require authentication
+      (`middleware.Authenticate` on the `/targets` group).
+- [x] SSRF internal service binds to `127.0.0.1:<ephemeral>` only; serves
+      hard-coded synthetic data; no cloud metadata or LAN reachability.
+- [x] Docker: no privileged containers, no socket or host-path mounts,
+      backend runs as non-root `app` user; both published ports bound to
+      `127.0.0.1`.
+- [x] No file-upload, file-read or path-traversal endpoints exist anywhere in
+      the backend.
+- [x] Lab SQL errors never echo driver messages (regression-tested).
+- [x] Unknown vs forbidden object access collapsed to 404 (no existence
+      oracle) in the IDOR lab.
+- [x] `npm audit --omit=dev`: 0 vulnerabilities; govulncheck recommended as a
+      follow-up CI step.
+
 ## Data Handling
 
 All data is synthetic. Do not enter real credentials, personal information, or
