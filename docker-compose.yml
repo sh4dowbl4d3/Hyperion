@@ -39,6 +39,17 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  frontend:
+    build: ./frontend
+    ports:
+      - "127.0.0.1:${FRONTEND_HOST_PORT:-5173}:80"
+    networks:
+      - labs-net
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
 networks:
   labs-net:
     driver: bridge
