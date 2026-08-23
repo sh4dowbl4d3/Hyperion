@@ -128,6 +128,44 @@ export const PLAYGROUNDS: Record<string, PlaygroundEndpoint[]> = {
       params: [{ name: "url", label: "Target URL" }],
     },
   ],
+  "open-redirect": [
+    {
+      path: "campaigns",
+      method: "GET",
+      label: "List campaigns",
+      description: "Shows the legitimate internal campaign slugs.",
+    },
+    {
+      path: "redirect",
+      method: "GET",
+      label: "Forwarder (vulnerable)",
+      description: "Forwards to whatever absolute URL you supply.",
+      params: [{ name: "to", label: "Destination", placeholder: "http://10.0.0.9/admin/secret-token" }],
+    },
+    {
+      path: "redirect-safe",
+      method: "GET",
+      label: "Forwarder (safe)",
+      description: "Only root-relative campaign paths are accepted.",
+      params: [{ name: "to", label: "Destination", placeholder: "/promo" }],
+    },
+  ],
+  "command-injection": [
+    {
+      path: "lookup",
+      method: "GET",
+      label: "DNS probe (vulnerable)",
+      description: "Host is pasted onto the command line — `;` starts a second command.",
+      params: [{ name: "host", label: "Host", placeholder: "example.org; cat /etc/passwd" }],
+    },
+    {
+      path: "lookup-safe",
+      method: "GET",
+      label: "DNS probe (safe)",
+      description: "Allow-lists plain hostnames; metacharacters rejected.",
+      params: [{ name: "host", label: "Host" }],
+    },
+  ],
 };
 
 /** The race lab gets a dedicated helper instead of a plain form. */

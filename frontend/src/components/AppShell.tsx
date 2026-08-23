@@ -17,7 +17,7 @@ export function AppShell() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-cream-paper">
+    <div className="flex min-h-[100dvh] flex-col bg-cream-paper">
       {/* Floating pill navigation */}
       <div className="sticky top-4 z-20 mx-auto w-full max-w-[1200px] px-4">
         <header className="flex h-14 items-center justify-between rounded-pill bg-pure-white px-3">
@@ -95,12 +95,12 @@ export function AppShell() {
         </nav>
       </div>
 
-      <main className="mx-auto w-full max-w-[1200px] px-4 pb-24 pt-10 sm:px-6">
+      <main className="mx-auto w-full max-w-[1200px] flex-1 px-4 pb-16 pt-10 sm:px-6">
         <Outlet />
       </main>
 
-      {/* Sunshine footer accent band */}
-      <footer className="bg-sunshine-pop px-6 py-6 text-center">
+      {/* Sunshine footer accent band — sits flush at the bottom */}
+      <footer className="mt-auto bg-sunshine-pop px-6 py-6 text-center">
         <p className="text-sm font-medium text-ink-black">
           LOCAL ENVIRONMENT · SYNTHETIC DATA · NO EXTERNAL TARGETS
         </p>
