@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { ListChecks, ShieldCheck, SignOut, SquaresFour } from "@phosphor-icons/react";
+import { ListChecks, SignOut, SquaresFour } from "@phosphor-icons/react";
 import { useAuth } from "../hooks/useAuth";
 
 const navItems = [
@@ -20,9 +20,11 @@ export function AppShell() {
     <div className="flex min-h-[100dvh] flex-col bg-ink-950">
       <header className="flex h-16 shrink-0 items-center justify-between border-b border-ink-800 px-4 sm:px-6">
         <div className="flex items-center gap-2.5">
-          <ShieldCheck size={24} weight="duotone" className="text-signal-500" aria-hidden />
           <span className="font-display text-lg font-semibold tracking-tight text-fog-100">
             ModernDVWA
+          </span>
+          <span className="rounded border border-signal-500/40 px-1.5 py-0.5 font-mono text-[10px] font-medium uppercase tracking-widest text-signal-500">
+            Labs
           </span>
         </div>
         <div className="flex items-center gap-4">

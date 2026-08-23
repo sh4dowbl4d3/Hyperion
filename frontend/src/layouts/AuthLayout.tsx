@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { ShieldCheck } from "@phosphor-icons/react";
 
 export function AuthLayout({ children }: { children: ReactNode }) {
   return (
@@ -15,7 +14,6 @@ export function AuthLayout({ children }: { children: ReactNode }) {
           }}
         />
         <div className="relative flex items-center gap-3">
-          <ShieldCheck size={30} weight="duotone" className="text-signal-500" aria-hidden />
           <span className="font-display text-xl font-semibold tracking-tight text-fog-100">
             ModernDVWA
           </span>
