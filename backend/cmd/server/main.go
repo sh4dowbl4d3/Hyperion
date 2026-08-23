@@ -14,8 +14,10 @@ import (
 	"moderndvwa/backend/internal/database"
 	"moderndvwa/backend/internal/httpx"
 	"moderndvwa/backend/internal/labs"
+	"moderndvwa/backend/internal/labs/cmdinj"
 	"moderndvwa/backend/internal/labs/idor"
 	"moderndvwa/backend/internal/labs/jwtlab"
+	"moderndvwa/backend/internal/labs/redirect"
 	"moderndvwa/backend/internal/labs/race"
 	"moderndvwa/backend/internal/labs/ssrf"
 	"moderndvwa/backend/internal/labs/sqli"
@@ -96,6 +98,9 @@ func run() error {
 
 	raceStore := race.NewStore(pool)
 	registry.MustRegister(race.NewLab(raceStore, progressStore))
+
+	registry.MustRegister(redirect.NewLab(progressStore))
+	registry.MustRegister(cmdinj.NewLab(cmdinj.NewSimulator(), progressStore))
 
 	if err := catalogRepo.Seed(ctx, registryMetas(registry)); err != nil {
 		return err
