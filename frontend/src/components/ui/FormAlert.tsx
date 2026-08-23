@@ -5,12 +5,12 @@ export function FormAlert({ children }: { children: ReactNode }) {
   return (
     <div
       role="alert"
-      className="flex items-start gap-2.5 rounded-card border border-coral-pop/50 bg-coral-pop/10 px-4 py-3 text-sm text-ink-black"
+      className="flex items-start gap-2.5 rounded-[2px] border-2 border-charcoal-ink bg-canary-banner px-4 py-3 text-sm text-charcoal-ink"
     >
       <WarningCircle
         size={18}
         weight="fill"
-        className="mt-0.5 shrink-0 text-coral-pop"
+        className="mt-0.5 shrink-0 text-charcoal-ink"
         aria-hidden
       />
       <span>{children}</span>

@@ -29,9 +29,9 @@ export default function LabDetailPage() {
 
   if (error) {
     return (
-      <div className="rounded-card border border-coral-pop/50 bg-coral-pop/10 p-6">
-        <p className="flex items-center gap-2.5 text-sm text-ink-black">
-          <span className="size-2 shrink-0 rounded-full bg-coral-pop" aria-hidden />
+      <div className="border-2 border-charcoal-ink bg-canary-banner p-6 shadow-offset">
+        <p className="flex items-center gap-2.5 text-sm tracking-[0.02em] text-charcoal-ink">
+          <span className="size-2 shrink-0 bg-coral-sketch" aria-hidden />
           {error}
         </p>
         <BackLink />
@@ -43,7 +43,7 @@ export default function LabDetailPage() {
     return (
       <div>
         <BackLink />
-        <div className="mt-6 h-72 animate-pulse rounded-card bg-pure-white" />
+        <div className="mt-6 h-72 animate-pulse border-2 border-charcoal-ink bg-frost-white" />
       </div>
     );
   }
@@ -57,41 +57,41 @@ export default function LabDetailPage() {
       <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-[10px] bg-cream-paper px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-stone-gray">
+            <span className="rounded-[2px] border border-charcoal-ink bg-chalk-gray px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.02em] text-charcoal-ink">
               {lab.category}
             </span>
-            <span className="rounded-[10px] bg-cream-paper px-2.5 py-1 text-[11px] capitalize text-stone-gray">
+            <span className="rounded-[2px] border border-graphite px-2 py-0.5 text-[11px] uppercase tracking-[0.02em] text-pencil-gray">
               {lab.difficulty}
             </span>
           </div>
-          <h1 className="mt-3 text-[30px] font-medium leading-tight tracking-tight text-ink-black sm:text-[53px] sm:leading-[1.05]">
+          <h1 className="mt-3 text-[24px] font-light uppercase leading-tight tracking-[0.02em] text-charcoal-ink sm:text-[40px]">
             {lab.name}
           </h1>
         </div>
         <div className="flex items-center gap-3">
           {completed && (
-            <span className="inline-flex items-center gap-1.5 rounded-pill bg-fresh-grass px-4 py-2 text-sm font-medium text-ink-black">
-              <SealCheck size={15} weight="fill" aria-hidden />
+            <span className="inline-flex items-center gap-1.5 border-2 border-charcoal-ink bg-sky-crayon px-3 py-1.5 text-caption font-medium uppercase tracking-[0.02em] text-charcoal-ink">
+              <SealCheck size={14} weight="fill" aria-hidden />
               Completed
             </span>
           )}
-          <span className="flex items-center gap-1.5 text-sm font-medium text-ink-black">
-            <span className="size-2 rounded-full bg-sky-pop" aria-hidden />+{lab.xp} XP
+          <span className="flex items-center gap-1.5 text-sm font-medium text-charcoal-ink">
+            <span className="size-1.5 rounded-full bg-duck-bill-orange" aria-hidden />+{lab.xp} XP
           </span>
         </div>
       </div>
 
-      <p className="mt-4 max-w-[65ch] text-body-lg leading-relaxed text-stone-gray">
+      <p className="mt-4 max-w-[65ch] text-body-lg leading-relaxed tracking-[0.02em] text-charcoal-ink/75">
         {lab.description}
       </p>
 
-      {/* Objective — white card on cream */}
-      <section className="mt-8 rounded-card bg-pure-white p-7 sm:p-9">
-        <h2 className="flex items-center gap-2.5 text-[22px] font-medium tracking-tight text-ink-black">
-          <Target size={22} weight="duotone" className="text-fresh-grass" aria-hidden />
+      {/* Objective — white card with hard offset shadow */}
+      <section className="mt-8 border-2 border-charcoal-ink bg-frost-white p-7 shadow-offset sm:p-9">
+        <h2 className="flex items-center gap-2.5 text-heading-sm font-medium tracking-[0.02em] text-charcoal-ink">
+          <Target size={22} weight="duotone" aria-hidden />
           Objective
         </h2>
-        <p className="mt-4 max-w-[70ch] text-body-lg leading-relaxed text-ink-black/85">
+        <p className="mt-4 max-w-[70ch] text-body-lg leading-relaxed tracking-[0.02em] text-charcoal-ink/85">
           {lab.objective}
         </p>
       </section>
@@ -99,18 +99,18 @@ export default function LabDetailPage() {
       <LabPlayground slug={slug} />
 
       {/* Hints */}
-      <section className="mt-6 rounded-card bg-pure-white p-7 sm:p-9">
-        <h2 className="flex items-center gap-2.5 text-[22px] font-medium tracking-tight text-ink-black">
-          <Lightbulb size={22} weight="duotone" className="text-sunshine-pop" aria-hidden />
+      <section className="mt-6 border-2 border-charcoal-ink bg-frost-white p-7 shadow-offset sm:p-9">
+        <h2 className="flex items-center gap-2.5 text-heading-sm font-medium tracking-[0.02em] text-charcoal-ink">
+          <Lightbulb size={22} weight="duotone" aria-hidden />
           Hints
         </h2>
         <ol className="mt-5 flex flex-col gap-3">
           {lab.hints.slice(0, revealedHints).map((hint, index) => (
             <li
               key={index}
-              className="rounded-card bg-cream-paper px-5 py-4 text-[15px] leading-relaxed text-ink-black/85"
+              className="border-l-4 border-sky-crayon bg-chalk-gray px-5 py-3.5 text-body leading-relaxed tracking-[0.02em] text-charcoal-ink/85"
             >
-              <span className="mr-2 font-mono text-xs text-stone-gray">Hint {index + 1}</span>
+              <span className="mr-2 font-semibold uppercase">Hint {index + 1}</span>
               {hint}
             </li>
           ))}
@@ -118,13 +118,13 @@ export default function LabDetailPage() {
         {revealedHints < lab.hints.length ? (
           <button
             onClick={() => setRevealedHints((n) => n + 1)}
-            className="mt-5 rounded-pill border border-hairline-mist bg-pure-white px-5 py-2.5 text-sm font-medium text-ink-black transition-colors hover:border-stone-gray"
+            className="mt-5 border-2 border-charcoal-ink bg-frost-white px-5 py-2 text-body-sm font-medium uppercase tracking-[0.02em] text-charcoal-ink shadow-offset transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
           >
             Reveal hint {revealedHints + 1} of {lab.hints.length}
           </button>
         ) : (
           revealedHints > 0 && (
-            <p className="mt-5 text-sm text-stone-gray">
+            <p className="mt-5 text-sm tracking-[0.02em] text-pencil-gray">
               All hints revealed — you're on your own now.
             </p>
           )
@@ -132,23 +132,23 @@ export default function LabDetailPage() {
       </section>
 
       {completed && lab.vulnerability_type ? (
-        <section className="mt-6 rounded-card border-2 border-fresh-grass bg-pure-white p-7 sm:p-9">
-          <h2 className="flex items-center gap-2.5 text-[22px] font-medium tracking-tight text-ink-black">
-            <Skull size={22} weight="duotone" className="text-coral-pop" aria-hidden />
+        <section className="mt-6 border-2 border-charcoal-ink bg-canary-banner p-7 shadow-offset sm:p-9">
+          <h2 className="flex items-center gap-2.5 text-heading-sm font-medium tracking-[0.02em] text-charcoal-ink">
+            <Skull size={22} weight="duotone" aria-hidden />
             Vulnerability revealed
           </h2>
-          <p className="mt-4 inline-block rounded-[10px] bg-cream-paper px-3 py-1.5 font-mono text-sm text-ink-black">
+          <p className="mt-4 inline-block border border-charcoal-ink bg-frost-white px-3 py-1.5 font-mono text-sm tracking-[0.02em] text-charcoal-ink">
             {lab.vulnerability_type}
           </p>
-          <p className="mt-4 max-w-[70ch] text-[15px] leading-relaxed text-stone-gray">
+          <p className="mt-4 max-w-[70ch] text-body leading-relaxed tracking-[0.02em] text-charcoal-ink/80">
             You earned this reveal by completing the lab. The secure reference implementation is
             available on every target endpoint via its{" "}
-            <code className="font-mono text-ink-black">-safe</code> twin.
+            <code className="font-semibold text-charcoal-ink">-safe</code> twin.
           </p>
         </section>
       ) : (
         !error && (
-          <p className="mt-8 text-sm text-stone-gray">
+          <p className="mt-8 text-sm tracking-[0.02em] text-pencil-gray">
             The vulnerability class behind this lab is disclosed only after completion.
           </p>
         )
@@ -161,7 +161,7 @@ function BackLink() {
   return (
     <Link
       to="/labs"
-      className="inline-flex items-center gap-1.5 text-sm font-medium text-stone-gray underline decoration-hairline-mist underline-offset-4 transition-colors hover:text-ink-black hover:decoration-stone-gray"
+      className="inline-flex items-center gap-1.5 text-sm font-medium tracking-[0.02em] text-charcoal-ink underline decoration-pencil-gray underline-offset-4 transition-colors hover:decoration-charcoal-ink"
     >
       <ArrowLeft size={15} aria-hidden />
       All labs

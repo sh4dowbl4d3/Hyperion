@@ -25,51 +25,54 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-[30px] font-medium leading-tight tracking-tight text-ink-black sm:text-[53px] sm:leading-[1.05]">
+      <h1 className="text-[24px] font-light uppercase leading-tight tracking-[0.02em] text-charcoal-ink sm:text-display">
         Welcome back
         {user ? `, ${user.email.split("@")[0]}` : ""}
       </h1>
-      <p className="mt-3 max-w-[60ch] text-body-lg text-stone-gray">
+      <p className="mt-3 max-w-[60ch] text-subheading tracking-[0.02em] text-charcoal-ink/75">
         Track your training progress here. Open a lab to read its objective and
         start hunting.
       </p>
 
-      {/* Progress card + stats */}
-      <div className="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div className="rounded-card bg-pure-white p-6 lg:col-span-1">
-          <p className="text-sm text-stone-gray">Overall progress</p>
+      {/* Progress card + stats — white cards with hard offset shadows */}
+      <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="border-2 border-charcoal-ink bg-frost-white p-6 shadow-offset">
+          <p className="text-caption uppercase tracking-[0.02em] text-pencil-gray">
+            Overall progress
+          </p>
           <div className="mt-4 flex items-end gap-2">
-            <span className="text-[53px] font-medium leading-none tracking-[-2px] text-ink-black">
-              {summary ? `${pct}` : "—"}
-              {summary && "%"}
+            <span className="text-[40px] font-medium leading-none tracking-[0.02em] text-charcoal-ink">
+              {summary ? `${pct}%` : "—"}
             </span>
           </div>
-          <div className="mt-5 h-2.5 w-full rounded-pill bg-sandstone">
+          <div className="mt-5 h-3 w-full border-2 border-charcoal-ink bg-chalk-gray">
             <div
-              className="h-full rounded-pill bg-fresh-grass transition-all"
-              style={{ width: `${summary ? Math.max(pct, summary.completed_labs > 0 ? 4 : 0) : 0}%` }}
+              className="h-full bg-sky-crayon transition-all"
+              style={{ width: `${summary ? pct : 0}%` }}
             />
           </div>
-          <p className="mt-3 text-sm text-stone-gray">
+          <p className="mt-3 text-sm tracking-[0.02em] text-charcoal-ink/70">
             {summary ? `${summary.completed_labs} of ${summary.total_labs} labs completed` : "—"}
           </p>
         </div>
 
-        <StatCard label="XP earned" value={summary ? `${summary.xp_earned} / ${summary.xp_available}` : "—"} />
-        <StatCard label="Current rank" value={rankFor(summary)} />
+        <StatCard label="XP EARNED" value={summary ? `${summary.xp_earned} / ${summary.xp_available}` : "—"} />
+        <StatCard label="CURRENT RANK" value={rankFor(summary)} />
       </div>
 
       {/* Getting started card */}
-      <section className="mt-8 rounded-card bg-pure-white p-8">
-        <h2 className="text-[30px] font-medium tracking-tight text-ink-black">Getting started</h2>
-        <ol className="mt-6 flex flex-col gap-4 text-[15px] leading-relaxed text-ink-black/80">
+      <section className="mt-8 border-2 border-charcoal-ink bg-frost-white p-8 shadow-offset">
+        <h2 className="text-[24px] font-medium tracking-[0.02em] text-charcoal-ink">
+          Getting started
+        </h2>
+        <ol className="mt-6 flex flex-col gap-4 text-body leading-relaxed tracking-[0.02em] text-charcoal-ink/85">
           <li className="flex gap-3">
             <Step n={1} />
             <span>
               Pick a lab from the{" "}
               <Link
                 to="/labs"
-                className="underline decoration-stone-gray underline-offset-4 hover:decoration-ink-black"
+                className="font-medium underline decoration-sky-crayon decoration-2 underline-offset-4 hover:decoration-charcoal-ink"
               >
                 labs page
               </Link>{" "}
@@ -95,16 +98,16 @@ export default function Dashboard() {
 
 function rankFor(summary: ProgressSummary | null): string {
   if (!summary) return "—";
-  if (summary.completed_labs === 0) return "Initiate";
-  if (summary.completed_labs < summary.total_labs) return "Operator";
-  return "Elite";
+  if (summary.completed_labs === 0) return "INITIATE";
+  if (summary.completed_labs < summary.total_labs) return "OPERATOR";
+  return "ELITE";
 }
 
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-card bg-pure-white p-6">
-      <p className="text-sm text-stone-gray">{label}</p>
-      <p className="mt-3 text-[30px] font-medium leading-none tracking-tight text-ink-black">
+    <div className="border-2 border-charcoal-ink bg-frost-white p-6 shadow-offset">
+      <p className="text-caption uppercase tracking-[0.02em] text-pencil-gray">{label}</p>
+      <p className="mt-4 text-heading-sm font-medium leading-none tracking-[0.02em] text-charcoal-ink">
         {value}
       </p>
     </div>
@@ -112,10 +115,10 @@ function StatCard({ label, value }: { label: string; value: string }) {
 }
 
 function Step({ n }: { n: number }) {
-  const fills = ["bg-fresh-grass", "bg-sky-pop", "bg-sunshine-pop"];
+  const fills = ["bg-mint-sketch", "bg-sky-crayon", "bg-canary-banner"];
   return (
     <span
-      className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-medium text-ink-black ${fills[n - 1]}`}
+      className={`mt-0.5 flex size-6 shrink-0 items-center justify-center border-2 border-charcoal-ink text-xs font-semibold text-charcoal-ink ${fills[n - 1]}`}
     >
       {n}
     </span>

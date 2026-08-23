@@ -143,32 +143,32 @@ export function LabPlayground({ slug }: { slug: string }) {
   if (!endpoints && !raceHelper) return null;
 
   return (
-    <section className="mt-6 rounded-card bg-pure-white p-7 sm:p-9">
-      <h2 className="flex items-center gap-2.5 text-[22px] font-medium tracking-tight text-ink-black">
-        <TestTube size={22} weight="duotone" className="text-sky-pop" aria-hidden />
+    <section className="mt-6 border-2 border-charcoal-ink bg-frost-white p-7 shadow-offset sm:p-9">
+      <h2 className="flex items-center gap-2.5 text-heading-sm font-medium tracking-[0.02em] text-charcoal-ink">
+        <TestTube size={22} weight="duotone" aria-hidden />
         Playground
       </h2>
-      <p className="mt-2 text-[15px] text-stone-gray">
+      <p className="mt-2 text-body tracking-[0.02em] text-charcoal-ink/70">
         Drive this lab's endpoints without leaving the page. Requests use your
         current session.
       </p>
 
       {raceHelper && (
-        <div className="mt-5 rounded-card bg-cream-paper p-5">
-          <p className="text-sm leading-relaxed text-ink-black/85">
+        <div className="mt-5 border-2 border-charcoal-ink bg-notebook-pale p-5">
+          <p className="text-body leading-relaxed tracking-[0.02em] text-charcoal-ink">
             This lab needs <strong>concurrent</strong> requests to win the race.
             Fire a burst of parallel redemptions:
           </p>
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap gap-3">
             {[12, 24].map((count) => (
               <button
                 key={count}
                 onClick={() => runRaceHelper(count)}
                 disabled={busy !== null}
-                className="inline-flex items-center gap-2 rounded-pill bg-coral-pop px-4 py-2 text-sm font-medium text-white transition-all hover:brightness-105 active:translate-y-[1px] disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-[2px] border-2 border-charcoal-ink bg-canary-banner px-4 py-2 text-body-sm font-medium uppercase tracking-[0.02em] text-charcoal-ink shadow-offset transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none disabled:opacity-50"
               >
                 <Lightning size={14} weight="fill" aria-hidden />
-                {busy === "race" ? "Firing…" : `Fire ${count} redemptions`}
+                {busy === "race" ? "FIRING…" : `Fire ${count}`}
               </button>
             ))}
           </div>
@@ -181,20 +181,24 @@ export function LabPlayground({ slug }: { slug: string }) {
           const key = endpoint.label;
           const paramValues = values[key] ?? {};
           return (
-            <div key={key} className="rounded-card bg-cream-paper p-5">
-              <p className="font-mono text-sm text-ink-black">
-                <span className="mr-2 rounded-[10px] bg-pure-white px-2 py-0.5 text-xs uppercase text-stone-gray">
+            <div key={key} className="border border-graphite bg-chalk-gray p-5">
+              <p className="font-mono text-sm tracking-[0.02em] text-charcoal-ink">
+                <span className="mr-2 inline-block border border-charcoal-ink bg-frost-white px-1.5 py-0.5 text-caption uppercase text-charcoal-ink">
                   {endpoint.method}
                 </span>
                 /targets/{slug}/{endpoint.path}
               </p>
-              <p className="mt-1.5 text-sm text-stone-gray">{endpoint.description}</p>
+              <p className="mt-1.5 text-sm tracking-[0.02em] text-pencil-gray">
+                {endpoint.description}
+              </p>
 
               {(endpoint.params?.length ?? 0) > 0 && (
                 <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {endpoint.params!.map((param) => (
                     <label key={param.name} className="flex flex-col gap-1">
-                      <span className="text-xs font-medium text-ink-black/80">{param.label}</span>
+                      <span className="text-caption font-medium uppercase tracking-[0.02em] text-charcoal-ink/80">
+                        {param.label}
+                      </span>
                       <input
                         value={paramValues[param.name] ?? ""}
                         placeholder={param.placeholder}
@@ -204,7 +208,7 @@ export function LabPlayground({ slug }: { slug: string }) {
                             [key]: { ...prev[key], [param.name]: e.target.value },
                           }))
                         }
-                        className="h-10 rounded-pill border border-hairline-mist bg-pure-white px-4 font-mono text-sm text-ink-black placeholder:text-stone-gray focus:border-ink-black"
+                        className="h-10 rounded-[2px] border-2 border-charcoal-ink bg-frost-white px-3 font-mono text-sm tracking-[0.02em] text-charcoal-ink placeholder:text-pencil-gray focus:border-sky-crayon"
                       />
                     </label>
                   ))}
@@ -214,7 +218,7 @@ export function LabPlayground({ slug }: { slug: string }) {
               <button
                 onClick={() => run(key, endpoint)}
                 disabled={busy !== null}
-                className="mt-3 inline-flex items-center gap-2 rounded-pill bg-fresh-grass px-4 py-2 text-sm font-medium text-ink-black transition-all hover:brightness-105 active:translate-y-[1px] disabled:opacity-50"
+                className="mt-3 inline-flex items-center gap-2 rounded-[2px] border-2 border-charcoal-ink bg-sky-crayon px-4 py-2 text-body-sm font-medium uppercase tracking-[0.02em] text-charcoal-ink shadow-offset transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none disabled:opacity-50"
               >
                 <Play size={13} weight="fill" aria-hidden />
                 {busy === key ? "Sending…" : "Send"}
@@ -234,12 +238,12 @@ function ResultView({ result }: { result: Result | null }) {
   return (
     <pre
       aria-live="polite"
-      className={`mt-3 max-h-64 overflow-auto whitespace-pre-wrap break-all rounded-card bg-pure-white px-4 py-3 font-mono text-xs leading-relaxed ${
+      className={`mt-3 max-h-64 overflow-auto whitespace-pre-wrap break-all border-2 bg-frost-white px-4 py-3 font-mono text-xs leading-relaxed ${
         result.status >= 200 && result.status < 300
-          ? "border border-fresh-grass text-ink-black"
+          ? "border-mint-sketch text-charcoal-ink"
           : result.status === 0
-            ? "border border-coral-pop text-coral-pop"
-            : "border border-hairline-mist text-stone-gray"
+            ? "border-coral-sketch text-charcoal-ink"
+            : "border-pencil-gray text-pencil-gray"
       }`}
     >
       {`[${result.status}] ${result.body}`}

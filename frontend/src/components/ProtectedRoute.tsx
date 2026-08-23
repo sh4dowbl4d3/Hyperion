@@ -9,7 +9,7 @@ export function ProtectedRoute() {
   if (status === "loading") {
     return (
       <div className="flex min-h-[100dvh] items-center justify-center bg-cream-paper">
-        <CircleNotch size={28} className="animate-spin text-ink-black" aria-label="Loading" />
+        <CircleNotch size={28} className="animate-spin text-charcoal-ink" aria-label="Loading" />
       </div>
     );
   }
