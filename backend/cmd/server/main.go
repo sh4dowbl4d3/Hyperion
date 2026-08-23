@@ -100,6 +100,11 @@ func run() error {
 	if err := catalogRepo.Seed(ctx, registryMetas(registry)); err != nil {
 		return err
 	}
+	// Prune catalog rows left behind by removed labs or test runs so the
+	// listing always reflects the compiled-in registry.
+	if err := catalogRepo.PruneMissing(ctx, registryMetas(registry)); err != nil {
+		return err
+	}
 
 	router := api.NewRouter(api.Deps{
 		Log:      log,

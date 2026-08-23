@@ -112,3 +112,28 @@ func (r *CatalogRepository) Get(ctx context.Context, slug string) (*CatalogEntry
 	}
 	return entry, nil
 }
+
+// PruneMissing removes catalog rows whose slugs are absent from metas, as long
+// as no user progress references them. This keeps the listing aligned with the
+// compiled-in lab registry even when a database volume outlives a code change
+// (e.g. removed or renamed labs) or integration-test residue. Rows with
+// existing progress are kept so user history is never destroyed.
+func (r *CatalogRepository) PruneMissing(ctx context.Context, metas []Meta) error {
+	if len(metas) == 0 {
+		return nil
+	}
+	slugs := make([]string, 0, len(metas))
+	for _, m := range metas {
+		slugs = append(slugs, m.Slug)
+	}
+	tag, err := r.pool.Exec(ctx,
+		`DELETE FROM labs l WHERE NOT (l.slug = ANY($1))
+		 AND NOT EXISTS (SELECT 1 FROM progress p WHERE p.lab_slug = l.slug)`,
+		slugs,
+	)
+	if err != nil {
+		return fmt.Errorf("prune missing labs: %w", err)
+	}
+	_ = tag
+	return nil
+}
