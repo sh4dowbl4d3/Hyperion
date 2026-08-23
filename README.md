@@ -19,14 +19,19 @@ isolated Docker environment.
 
 ## MVP Labs
 
-| Lab | Category | Difficulty |
-| --- | --- | --- |
-| SQL Injection | Injection | Medium |
-| Stored XSS | Injection | Easy |
-| IDOR / BOLA | Broken Access Control | Medium |
-| JWT Vulnerability | Authentication | Hard |
-| SSRF | Server-Side Request Forgery | Hard |
-| Race Condition / Business Logic | Business Logic | Hard |
+| Lab | Category | Difficulty | XP |
+| --- | --- | --- | --- |
+| SQL Injection | Injection | Easy | 100 |
+| Stored XSS | Injection | Easy | 100 |
+| IDOR / BOLA | Authorization | Easy | 100 |
+| JWT Vulnerability | Authentication | Medium | 150 |
+| SSRF | Request Forgery | Medium | 150 |
+| Race Condition | Business Logic | Hard | 200 |
+
+Per-lab guides with objectives, walkthroughs and mitigations live in
+[`docs/labs/`](docs/labs/) ([sqli](docs/labs/sqli.md),
+[xss](docs/labs/xss.md), [idor](docs/labs/idor.md), [jwt](docs/labs/jwt.md),
+[ssrf](docs/labs/ssrf.md), [race-condition](docs/labs/race-condition.md)).
 
 ## Quick Start
 
