@@ -6,7 +6,6 @@ import {
   SealCheck,
   Skull,
   Target,
-  Warning,
 } from "@phosphor-icons/react";
 import { getLab } from "../services/labService";
 import type { LabDetail } from "../types/lab";
@@ -30,9 +29,9 @@ export default function LabDetailPage() {
 
   if (error) {
     return (
-      <div className="rounded-xl border border-alert-500/40 bg-alert-500/10 p-6">
-        <p className="flex items-center gap-2.5 text-sm text-fog-100">
-          <Warning size={18} weight="fill" className="text-alert-500" aria-hidden />
+      <div className="rounded-card border border-coral-pop/50 bg-coral-pop/10 p-6">
+        <p className="flex items-center gap-2.5 text-sm text-ink-black">
+          <span className="size-2 shrink-0 rounded-full bg-coral-pop" aria-hidden />
           {error}
         </p>
         <BackLink />
@@ -44,7 +43,7 @@ export default function LabDetailPage() {
     return (
       <div>
         <BackLink />
-        <div className="mt-6 h-64 animate-pulse rounded-xl bg-ink-850" />
+        <div className="mt-6 h-72 animate-pulse rounded-card bg-pure-white" />
       </div>
     );
   }
@@ -57,50 +56,61 @@ export default function LabDetailPage() {
 
       <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <div className="flex flex-wrap items-center gap-2 font-mono text-xs uppercase tracking-wider text-fog-400">
-            <span>{lab.category}</span>
-            <span aria-hidden>·</span>
-            <span>{lab.difficulty}</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-[10px] bg-cream-paper px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-stone-gray">
+              {lab.category}
+            </span>
+            <span className="rounded-[10px] bg-cream-paper px-2.5 py-1 text-[11px] capitalize text-stone-gray">
+              {lab.difficulty}
+            </span>
           </div>
-          <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-fog-100">
+          <h1 className="mt-3 text-[30px] font-medium leading-tight tracking-tight text-ink-black sm:text-[53px] sm:leading-[1.05]">
             {lab.name}
           </h1>
         </div>
         <div className="flex items-center gap-3">
           {completed && (
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-signal-500/40 bg-signal-500/10 px-3 py-1.5 text-sm font-medium text-signal-500">
+            <span className="inline-flex items-center gap-1.5 rounded-pill bg-fresh-grass px-4 py-2 text-sm font-medium text-ink-black">
               <SealCheck size={15} weight="fill" aria-hidden />
               Completed
             </span>
           )}
-          <span className="font-mono text-sm font-medium text-signal-500">+{lab.xp} XP</span>
+          <span className="flex items-center gap-1.5 text-sm font-medium text-ink-black">
+            <span className="size-2 rounded-full bg-sky-pop" aria-hidden />+{lab.xp} XP
+          </span>
         </div>
       </div>
 
-      <p className="mt-4 max-w-[65ch] leading-relaxed text-fog-300">{lab.description}</p>
+      <p className="mt-4 max-w-[65ch] text-body-lg leading-relaxed text-stone-gray">
+        {lab.description}
+      </p>
+
+      {/* Objective — white card on cream */}
+      <section className="mt-8 rounded-card bg-pure-white p-7 sm:p-9">
+        <h2 className="flex items-center gap-2.5 text-[22px] font-medium tracking-tight text-ink-black">
+          <Target size={22} weight="duotone" className="text-fresh-grass" aria-hidden />
+          Objective
+        </h2>
+        <p className="mt-4 max-w-[70ch] text-body-lg leading-relaxed text-ink-black/85">
+          {lab.objective}
+        </p>
+      </section>
 
       <LabPlayground slug={slug} />
 
-      <section className="mt-8 rounded-xl border border-ink-800 bg-ink-900 p-6 sm:p-8">
-        <h2 className="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-fog-100">
-          <Target size={20} className="text-signal-500" aria-hidden />
-          Objective
-        </h2>
-        <p className="mt-3 max-w-[70ch] leading-relaxed text-fog-200">{lab.objective}</p>
-      </section>
-
-      <section className="mt-6 rounded-xl border border-ink-800 bg-ink-900 p-6 sm:p-8">
-        <h2 className="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-fog-100">
-          <Lightbulb size={20} className="text-caution-500" aria-hidden />
+      {/* Hints */}
+      <section className="mt-6 rounded-card bg-pure-white p-7 sm:p-9">
+        <h2 className="flex items-center gap-2.5 text-[22px] font-medium tracking-tight text-ink-black">
+          <Lightbulb size={22} weight="duotone" className="text-sunshine-pop" aria-hidden />
           Hints
         </h2>
-        <ol className="mt-4 flex flex-col gap-3">
+        <ol className="mt-5 flex flex-col gap-3">
           {lab.hints.slice(0, revealedHints).map((hint, index) => (
             <li
               key={index}
-              className="rounded-lg border border-ink-700 bg-ink-850 px-4 py-3 text-sm leading-relaxed text-fog-200"
+              className="rounded-card bg-cream-paper px-5 py-4 text-[15px] leading-relaxed text-ink-black/85"
             >
-              <span className="mr-2 font-mono text-xs text-fog-400">Hint {index + 1}</span>
+              <span className="mr-2 font-mono text-xs text-stone-gray">Hint {index + 1}</span>
               {hint}
             </li>
           ))}
@@ -108,31 +118,37 @@ export default function LabDetailPage() {
         {revealedHints < lab.hints.length ? (
           <button
             onClick={() => setRevealedHints((n) => n + 1)}
-            className="mt-4 rounded-lg border border-ink-600 px-4 py-2 text-sm font-medium text-fog-200 transition-colors hover:border-fog-400 hover:text-fog-100"
+            className="mt-5 rounded-pill border border-hairline-mist bg-pure-white px-5 py-2.5 text-sm font-medium text-ink-black transition-colors hover:border-stone-gray"
           >
             Reveal hint {revealedHints + 1} of {lab.hints.length}
           </button>
         ) : (
-          <p className="mt-4 text-sm text-fog-400">All hints revealed — you're on your own now.</p>
+          revealedHints > 0 && (
+            <p className="mt-5 text-sm text-stone-gray">
+              All hints revealed — you're on your own now.
+            </p>
+          )
         )}
       </section>
 
       {completed && lab.vulnerability_type ? (
-        <section className="mt-6 rounded-xl border border-ink-800 bg-ink-900 p-6 sm:p-8">
-          <h2 className="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-fog-100">
-            <Skull size={20} className="text-alert-500" aria-hidden />
+        <section className="mt-6 rounded-card border-2 border-fresh-grass bg-pure-white p-7 sm:p-9">
+          <h2 className="flex items-center gap-2.5 text-[22px] font-medium tracking-tight text-ink-black">
+            <Skull size={22} weight="duotone" className="text-coral-pop" aria-hidden />
             Vulnerability revealed
           </h2>
-          <p className="mt-3 font-mono text-sm text-alert-500">{lab.vulnerability_type}</p>
-          <p className="mt-3 max-w-[70ch] text-sm leading-relaxed text-fog-300">
+          <p className="mt-4 inline-block rounded-[10px] bg-cream-paper px-3 py-1.5 font-mono text-sm text-ink-black">
+            {lab.vulnerability_type}
+          </p>
+          <p className="mt-4 max-w-[70ch] text-[15px] leading-relaxed text-stone-gray">
             You earned this reveal by completing the lab. The secure reference implementation is
             available on every target endpoint via its{" "}
-            <code className="font-mono text-fog-200">-safe</code> twin.
+            <code className="font-mono text-ink-black">-safe</code> twin.
           </p>
         </section>
       ) : (
         !error && (
-          <p className="mt-8 text-sm text-fog-400">
+          <p className="mt-8 text-sm text-stone-gray">
             The vulnerability class behind this lab is disclosed only after completion.
           </p>
         )
@@ -145,9 +161,9 @@ function BackLink() {
   return (
     <Link
       to="/labs"
-      className="inline-flex items-center gap-1.5 text-sm font-medium text-fog-300 transition-colors hover:text-fog-100"
+      className="inline-flex items-center gap-1.5 text-sm font-medium text-stone-gray underline decoration-hairline-mist underline-offset-4 transition-colors hover:text-ink-black hover:decoration-stone-gray"
     >
-      <ArrowLeft size={16} aria-hidden />
+      <ArrowLeft size={15} aria-hidden />
       All labs
     </Link>
   );

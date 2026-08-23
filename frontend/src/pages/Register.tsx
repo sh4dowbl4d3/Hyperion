@@ -61,10 +61,8 @@ export default function Register() {
 
   return (
     <AuthLayout>
-      <h2 className="font-display text-3xl font-semibold tracking-tight text-fog-100">
-        Create account
-      </h2>
-      <p className="mt-2 mb-8 text-fog-300">Start training in under a minute.</p>
+      <h2 className="text-heading-sm font-medium tracking-tight text-ink-black">Create account</h2>
+      <p className="mt-2 mb-8 text-[15px] text-stone-gray">Start training in under a minute.</p>
 
       {formError && (
         <div className="mb-6">
@@ -105,9 +103,12 @@ export default function Register() {
         </Button>
       </form>
 
-      <p className="mt-8 text-sm text-fog-400">
+      <p className="mt-8 text-sm text-stone-gray">
         Already have an account?{" "}
-        <Link to="/login" className="font-medium text-signal-500 hover:text-signal-400">
+        <Link
+          to="/login"
+          className="font-medium text-ink-black underline decoration-stone-gray underline-offset-4 hover:decoration-ink-black"
+        >
           Sign in
         </Link>
       </p>

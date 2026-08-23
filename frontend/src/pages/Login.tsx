@@ -56,10 +56,8 @@ export default function Login() {
 
   return (
     <AuthLayout>
-      <h2 className="font-display text-3xl font-semibold tracking-tight text-fog-100">
-        Sign in
-      </h2>
-      <p className="mt-2 mb-8 text-fog-300">Access your training dashboard.</p>
+      <h2 className="text-heading-sm font-medium tracking-tight text-ink-black">Sign in</h2>
+      <p className="mt-2 mb-8 text-[15px] text-stone-gray">Access your training dashboard.</p>
 
       {formError && (
         <div className="mb-6">
@@ -91,9 +89,12 @@ export default function Login() {
         </Button>
       </form>
 
-      <p className="mt-8 text-sm text-fog-400">
+      <p className="mt-8 text-sm text-stone-gray">
         New here?{" "}
-        <Link to="/register" className="font-medium text-signal-500 hover:text-signal-400">
+        <Link
+          to="/register"
+          className="font-medium text-ink-black underline decoration-stone-gray underline-offset-4 hover:decoration-ink-black"
+        >
           Create an account
         </Link>
       </p>

@@ -8,8 +8,8 @@ export function ProtectedRoute() {
 
   if (status === "loading") {
     return (
-      <div className="flex min-h-[100dvh] items-center justify-center bg-ink-950">
-        <CircleNotch size={28} className="animate-spin text-signal-500" aria-label="Loading" />
+      <div className="flex min-h-[100dvh] items-center justify-center bg-cream-paper">
+        <CircleNotch size={28} className="animate-spin text-ink-black" aria-label="Loading" />
       </div>
     );
   }

@@ -3,42 +3,54 @@ import type { ReactNode } from "react";
 export function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <main className="grid min-h-[100dvh] grid-cols-1 lg:grid-cols-2">
-      <section className="relative hidden flex-col justify-between overflow-hidden border-r border-ink-800 bg-ink-900 p-12 lg:flex xl:p-16">
+      {/* Editorial side panel on cream canvas */}
+      <section className="relative hidden flex-col justify-between overflow-hidden border-r border-hairline-mist bg-cream-paper p-12 lg:flex xl:p-16">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-40"
+          className="pointer-events-none absolute inset-0 opacity-50"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(23,184,119,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(23,184,119,0.06) 1px, transparent 1px)",
+              "linear-gradient(rgba(44,46,42,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(44,46,42,0.04) 1px, transparent 1px)",
             backgroundSize: "44px 44px",
           }}
         />
-        <div className="relative flex items-center gap-3">
-          <span className="font-display text-xl font-semibold tracking-tight text-fog-100">
+        <div className="relative flex items-center gap-2.5">
+          <span
+            aria-hidden
+            className="flex size-9 items-center justify-center rounded-[10px] bg-fresh-grass"
+          >
+            <span className="size-2.5 rounded-full bg-ink-black" />
+          </span>
+          <span className="text-[17px] font-medium tracking-tight text-ink-black">
             ModernDVWA
           </span>
         </div>
 
-        <div className="relative max-w-md">
-          <h1 className="font-display text-[2.6rem] font-semibold leading-[1.08] tracking-tight text-fog-100">
+        {/* Oversized editorial headline */}
+        <div className="relative max-w-xl">
+          <h1 className="text-heading-sm font-medium leading-tight tracking-tight text-ink-black sm:text-[53px] sm:leading-[1.05]">
             Break modern web apps.
             <br />
             <span className="italic">Learn</span> how to defend them.
           </h1>
-          <p className="mt-5 max-w-[46ch] leading-relaxed text-fog-300">
+          <p className="mt-6 max-w-[46ch] text-body-lg font-normal leading-relaxed text-stone-gray">
             Hands-on labs for the vulnerabilities that matter in today's APIs,
             authentication flows and business logic — running entirely on your
             machine against synthetic data.
           </p>
         </div>
 
-        <p className="relative font-mono text-xs tracking-wide text-fog-400">
-          LOCAL ENVIRONMENT · SYNTHETIC DATA · NO EXTERNAL TARGETS
-        </p>
+        {/* Paper-cut decorative shapes */}
+        <div aria-hidden className="relative flex items-center gap-3">
+          <span className="size-8 rounded-full bg-sky-pop" />
+          <span className="h-8 w-14 rounded-pill bg-coral-pop" />
+          <span className="size-8 rounded-[10px] bg-fresh-grass" />
+        </div>
       </section>
 
-      <section className="flex items-center justify-center px-5 py-14 sm:px-10">
-        <div className="w-full max-w-sm">{children}</div>
+      {/* Form column on white */}
+      <section className="flex items-center justify-center bg-pure-white px-5 py-14 sm:px-10 lg:bg-cream-paper">
+        <div className="w-full max-w-md rounded-card bg-pure-white p-8 sm:p-10">{children}</div>
       </section>
     </main>
   );

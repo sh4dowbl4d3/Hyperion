@@ -1,29 +1,37 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  /* MindMarket — warm storybook on cream paper */
+  --color-fresh-grass: #8ed462;
+  --color-cream-paper: #f5f1e4;
+  --color-ink-black: #2c2e2a;
+  --color-pure-white: #ffffff;
+  --color-sandstone: #e0dbce;
+  --color-stone-gray: #80827f;
+  --color-hairline-mist: #d5d5d4;
+  --color-pure-ink: #000000;
+  --color-sky-pop: #2ba0ff;
+  --color-coral-pop: #ff705d;
+  --color-sunshine-pop: #f5e211;
+
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --color-ink-950: #0b0f0e;
-  --color-ink-900: #101614;
-  --color-ink-850: #141c1a;
-  --color-ink-800: #1a2422;
-  --color-ink-700: #24312e;
-  --color-ink-600: #33443f;
+  /* Type scale */
+  --text-body-sm: 15px;
+  --text-body-lg: 18px;
+  --text-subheading: 20px;
+  --text-heading-sm: 30px;
+  --text-heading: 53px;
+  --text-heading-lg: 81px;
+  --text-display: 140px;
 
-  --color-fog-400: #7d918b;
-  --color-fog-300: #a3b3ae;
-  --color-fog-200: #c8d4d0;
-  --color-fog-100: #e6edeb;
-
-  --color-signal-500: #17b877;
-  --color-signal-600: #0f995f;
-  --color-signal-700: #0b7a4c;
-
-  --color-caution-500: #d08700;
-
-  --color-alert-500: #e5484d;
+  /* Radii — sticker-soft */
+  --radius-card: 50px;
+  --radius-pill: 50px;
+  --radius-small: 10px;
+  --radius-illo: 63.75px;
 }
 
 html,
@@ -33,10 +41,10 @@ body,
 }
 
 body {
-  @apply bg-ink-950 text-fog-100 font-sans antialiased;
+  @apply bg-cream-paper text-ink-black font-sans antialiased;
 }
 
 *:focus-visible {
-  outline: 2px solid var(--color-signal-500);
+  outline: 2px solid var(--color-ink-black);
   outline-offset: 2px;
 }

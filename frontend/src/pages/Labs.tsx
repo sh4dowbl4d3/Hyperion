@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MagnifyingGlass, SealCheck, Warning } from "@phosphor-icons/react";
+import { MagnifyingGlass, SealCheck } from "@phosphor-icons/react";
 import { listLabs } from "../services/labService";
 import type { Difficulty, LabStatus, LabSummary } from "../types/lab";
 
 const difficultyDot: Record<Difficulty, string> = {
-  easy: "bg-signal-500",
-  medium: "bg-caution-500",
-  hard: "bg-alert-500",
+  easy: "bg-fresh-grass",
+  medium: "bg-sunshine-pop",
+  hard: "bg-coral-pop",
 };
 
 function StatusPill({ status }: { status: LabStatus }) {
   if (status === "completed") {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full border border-signal-500/40 bg-signal-500/10 px-2.5 py-1 text-xs font-medium text-signal-500">
+      <span className="inline-flex items-center gap-1.5 rounded-pill bg-fresh-grass px-3 py-1 text-xs font-medium text-ink-black">
         <SealCheck size={13} weight="fill" aria-hidden />
         Completed
       </span>
@@ -21,13 +21,13 @@ function StatusPill({ status }: { status: LabStatus }) {
   }
   if (status === "in_progress") {
     return (
-      <span className="rounded-full border border-fog-400/40 px-2.5 py-1 text-xs text-fog-200">
+      <span className="rounded-pill border border-stone-gray px-3 py-1 text-xs text-ink-black/70">
         In progress
       </span>
     );
   }
   return (
-    <span className="rounded-full border border-ink-600 px-2.5 py-1 text-xs text-fog-400">
+    <span className="rounded-pill border border-hairline-mist px-3 py-1 text-xs text-stone-gray">
       Not started
     </span>
   );
@@ -56,15 +56,19 @@ export default function Labs() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl font-semibold tracking-tight text-fog-100">Labs</h1>
-          <p className="mt-1 text-fog-300">Each lab pairs a vulnerable target with its secure twin.</p>
+          <h1 className="text-[30px] font-medium leading-tight tracking-tight text-ink-black sm:text-[53px] sm:leading-[1.05]">
+            Labs
+          </h1>
+          <p className="mt-2 text-body-lg text-stone-gray">
+            Each lab pairs a vulnerable target with its secure twin.
+          </p>
         </div>
         <label className="relative">
           <MagnifyingGlass
             size={16}
-            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-fog-400"
+            className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-stone-gray"
             aria-hidden
           />
           <input
@@ -72,14 +76,14 @@ export default function Labs() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search labs…"
             aria-label="Search labs by name or category"
-            className="h-10 w-56 rounded-lg border border-ink-600 bg-ink-900 pl-9 pr-3 text-sm text-fog-100 placeholder:text-fog-400/70 focus:border-signal-500 sm:w-64"
+            className="h-11 w-56 rounded-pill border border-hairline-mist bg-pure-white pl-10 pr-4 text-[15px] text-ink-black placeholder:text-stone-gray focus:border-ink-black sm:w-64"
           />
         </label>
       </div>
 
       {error && (
-        <div className="mt-8 flex items-center gap-2.5 rounded-lg border border-alert-500/40 bg-alert-500/10 px-4 py-3 text-sm text-fog-100">
-          <Warning size={18} weight="fill" className="text-alert-500" aria-hidden />
+        <div className="mt-8 flex items-center gap-2.5 rounded-card border border-coral-pop/50 bg-coral-pop/10 px-5 py-3.5 text-sm text-ink-black">
+          <span className="size-2 shrink-0 rounded-full bg-coral-pop" aria-hidden />
           {error}
         </div>
       )}
@@ -87,17 +91,17 @@ export default function Labs() {
       {!error && labs === null && (
         <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-44 animate-pulse rounded-xl bg-ink-850" />
+            <div key={i} className="h-52 animate-pulse rounded-card bg-pure-white" />
           ))}
         </div>
       )}
 
       {!error && labs !== null && visible.length === 0 && (
-        <div className="mt-12 rounded-xl border border-dashed border-ink-600 p-12 text-center">
-          <p className="font-display text-lg font-medium text-fog-200">
+        <div className="mt-12 rounded-card border border-dashed border-hairline-mist p-14 text-center">
+          <p className="text-[20px] font-medium tracking-tight text-ink-black">
             {labs.length === 0 ? "No labs registered yet" : "No labs match your search"}
           </p>
-          <p className="mt-2 text-sm text-fog-400">
+          <p className="mt-2 text-sm text-stone-gray">
             {labs.length === 0
               ? "The lab catalog populates automatically when modules are enabled on the server."
               : "Try a different name or category."}
@@ -105,29 +109,33 @@ export default function Labs() {
         </div>
       )}
 
-      <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
         {visible.map((lab) => (
           <Link
             key={lab.slug}
             to={`/labs/${lab.slug}`}
-            className="group flex flex-col rounded-xl border border-ink-800 bg-ink-900 p-6 transition-colors hover:border-signal-500/50"
+            className="group flex flex-col rounded-card border-2 border-transparent bg-pure-white p-6 transition-all hover:border-fresh-grass"
           >
             <div className="flex items-start justify-between gap-3">
-              <span className="font-mono text-xs uppercase tracking-wider text-fog-400">
+              {/* Category chip — small radius per system */}
+              <span className="rounded-[10px] bg-cream-paper px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-stone-gray">
                 {lab.category}
               </span>
-              <span className="font-mono text-sm font-medium text-signal-500">+{lab.xp} XP</span>
+              <span className="flex items-center gap-1.5 text-sm font-medium text-ink-black">
+                <span className="size-2 rounded-full bg-sky-pop" aria-hidden />
+                +{lab.xp} XP
+              </span>
             </div>
 
-            <h2 className="mt-3 font-display text-lg font-semibold tracking-tight text-fog-100 group-hover:text-white">
+            <h2 className="mt-4 text-[22px] font-medium leading-snug tracking-tight text-ink-black">
               {lab.name}
             </h2>
-            <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-fog-300">
+            <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-stone-gray">
               {lab.description}
             </p>
 
-            <div className="mt-auto flex items-center justify-between pt-5">
-              <span className="flex items-center gap-2 text-xs capitalize text-fog-300">
+            <div className="mt-auto flex items-center justify-between pt-6">
+              <span className="flex items-center gap-2 text-xs capitalize text-ink-black/70">
                 <span className={`size-2 rounded-full ${difficultyDot[lab.difficulty]}`} aria-hidden />
                 {lab.difficulty}
               </span>
