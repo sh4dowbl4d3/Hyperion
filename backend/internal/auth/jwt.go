@@ -13,7 +13,7 @@ var (
 	ErrTokenExpired = errors.New("token expired")
 )
 
-const tokenIssuer = "moderndvwa"
+const tokenIssuer = "hyperion"
 
 type Claims struct {
 	UserID string

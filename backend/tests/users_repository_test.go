@@ -10,9 +10,9 @@ import (
 	"os"
 	"testing"
 
-	"moderndvwa/backend/internal/database"
-	"moderndvwa/backend/internal/users"
-	"moderndvwa/backend/migrations"
+	"hyperion/backend/internal/database"
+	"hyperion/backend/internal/users"
+	"hyperion/backend/migrations"
 )
 
 func uniqueEmail(t *testing.T) string {

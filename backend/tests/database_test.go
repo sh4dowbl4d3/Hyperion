@@ -12,8 +12,8 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"moderndvwa/backend/internal/database"
-	"moderndvwa/backend/migrations"
+	"hyperion/backend/internal/database"
+	"hyperion/backend/migrations"
 )
 
 func testPool(t *testing.T) (*pgxpool.Pool, func()) {
@@ -67,7 +67,7 @@ func TestFreshDatabaseAppliesAllMigrations(t *testing.T) {
 	if _, err := rand.Read(suffix); err != nil {
 		t.Fatalf("generate database suffix: %v", err)
 	}
-	tmpName := "moderndvwa_it_" + hex.EncodeToString(suffix)
+	tmpName := "hyperion_it_" + hex.EncodeToString(suffix)
 
 	adminCfg := cfg.Copy()
 	adminCfg.ConnConfig.Database = "postgres"

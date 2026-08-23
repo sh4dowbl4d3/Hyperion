@@ -67,7 +67,7 @@ the database is available:
 
 ```bash
 docker compose up -d postgres
-TEST_DATABASE_DSN="postgres://moderndvwa:devpassword@localhost:5432/moderndvwa?sslmode=disable" \
+TEST_DATABASE_DSN="postgres://hyperion:devpassword@localhost:5432/hyperion?sslmode=disable" \
   go test -tags=integration ./tests/...
 ```
 

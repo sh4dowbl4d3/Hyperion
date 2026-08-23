@@ -9,10 +9,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"moderndvwa/backend/internal/auth"
-	"moderndvwa/backend/internal/httpx"
-	"moderndvwa/backend/internal/labs"
-	"moderndvwa/backend/internal/middleware"
+	"hyperion/backend/internal/auth"
+	"hyperion/backend/internal/httpx"
+	"hyperion/backend/internal/labs"
+	"hyperion/backend/internal/middleware"
 )
 
 type CatalogSource interface {

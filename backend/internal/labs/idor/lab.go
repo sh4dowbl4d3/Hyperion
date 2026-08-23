@@ -8,9 +8,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"moderndvwa/backend/internal/httpx"
-	"moderndvwa/backend/internal/labs"
-	"moderndvwa/backend/internal/middleware"
+	"hyperion/backend/internal/httpx"
+	"hyperion/backend/internal/labs"
+	"hyperion/backend/internal/middleware"
 )
 
 const LabSlug = "idor"

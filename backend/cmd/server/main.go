@@ -8,23 +8,23 @@ import (
 	"os/signal"
 	"syscall"
 
-	"moderndvwa/backend/internal/api"
-	"moderndvwa/backend/internal/auth"
-	"moderndvwa/backend/internal/config"
-	"moderndvwa/backend/internal/database"
-	"moderndvwa/backend/internal/httpx"
-	"moderndvwa/backend/internal/labs"
-	"moderndvwa/backend/internal/labs/cmdinj"
-	"moderndvwa/backend/internal/labs/idor"
-	"moderndvwa/backend/internal/labs/jwtlab"
-	"moderndvwa/backend/internal/labs/redirect"
-	"moderndvwa/backend/internal/labs/race"
-	"moderndvwa/backend/internal/labs/ssrf"
-	"moderndvwa/backend/internal/labs/sqli"
-	"moderndvwa/backend/internal/labs/xss"
-	"moderndvwa/backend/internal/logging"
-	"moderndvwa/backend/internal/users"
-	"moderndvwa/backend/migrations"
+	"hyperion/backend/internal/api"
+	"hyperion/backend/internal/auth"
+	"hyperion/backend/internal/config"
+	"hyperion/backend/internal/database"
+	"hyperion/backend/internal/httpx"
+	"hyperion/backend/internal/labs"
+	"hyperion/backend/internal/labs/cmdinj"
+	"hyperion/backend/internal/labs/idor"
+	"hyperion/backend/internal/labs/jwtlab"
+	"hyperion/backend/internal/labs/redirect"
+	"hyperion/backend/internal/labs/race"
+	"hyperion/backend/internal/labs/ssrf"
+	"hyperion/backend/internal/labs/sqli"
+	"hyperion/backend/internal/labs/xss"
+	"hyperion/backend/internal/logging"
+	"hyperion/backend/internal/users"
+	"hyperion/backend/migrations"
 )
 
 func main() {
@@ -123,7 +123,7 @@ func run() error {
 	})
 	server := httpx.NewServer(cfg.Addr, router, log)
 
-	log.Info("starting moderndvwa api",
+	log.Info("starting hyperion api",
 		slog.String("service", api.ServiceName),
 		slog.String("version", api.ServiceVersion),
 	)

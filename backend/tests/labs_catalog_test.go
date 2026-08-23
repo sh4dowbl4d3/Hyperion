@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"moderndvwa/backend/internal/database"
-	"moderndvwa/backend/internal/labs"
-	"moderndvwa/backend/migrations"
+	"hyperion/backend/internal/database"
+	"hyperion/backend/internal/labs"
+	"hyperion/backend/migrations"
 )
 
 func labTestRepo(t *testing.T) (*labs.CatalogRepository, func()) {

@@ -9,7 +9,7 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"moderndvwa/backend/internal/users"
+	"hyperion/backend/internal/users"
 )
 
 const (

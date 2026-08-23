@@ -32,7 +32,7 @@ describe("AuthProvider", () => {
   });
 
   it("hydrates the user from a stored token and confirms authentication", async () => {
-    window.sessionStorage.setItem("moderndvwa.session", "stored-token");
+    window.sessionStorage.setItem("hyperion.session", "stored-token");
     const meMock = vi.spyOn(authService, "me").mockResolvedValue({ user: testUser });
 
     const { result } = renderHook(() => useAuth(), { wrapper });
@@ -44,14 +44,14 @@ describe("AuthProvider", () => {
   });
 
   it("clears an invalid stored session", async () => {
-    window.sessionStorage.setItem("moderndvwa.session", "expired-token");
+    window.sessionStorage.setItem("hyperion.session", "expired-token");
     vi.spyOn(authService, "me").mockRejectedValue(
       Object.assign(new Error("expired"), { code: "token_expired" }),
     );
 
     const { result } = renderHook(() => useAuth(), { wrapper });
     await waitFor(() => expect(result.current.status).toBe("unauthenticated"));
-    expect(window.sessionStorage.getItem("moderndvwa.session")).toBeNull();
+    expect(window.sessionStorage.getItem("hyperion.session")).toBeNull();
   });
 
   it("login stores the token and sets the user", async () => {
@@ -69,7 +69,7 @@ describe("AuthProvider", () => {
     });
 
     expect(result.current.status).toBe("authenticated");
-    expect(window.sessionStorage.getItem("moderndvwa.session")).toBe("fresh-token");
+    expect(window.sessionStorage.getItem("hyperion.session")).toBe("fresh-token");
   });
 
   it("register signs in after account creation", async () => {
@@ -95,7 +95,7 @@ describe("AuthProvider", () => {
   });
 
   it("logout clears token and user state", async () => {
-    window.sessionStorage.setItem("moderndvwa.session", "stored-token");
+    window.sessionStorage.setItem("hyperion.session", "stored-token");
     vi.spyOn(authService, "me").mockResolvedValue({ user: testUser });
 
     const { result } = renderHook(() => useAuth(), { wrapper });
@@ -107,6 +107,6 @@ describe("AuthProvider", () => {
 
     expect(result.current.status).toBe("unauthenticated");
     expect(result.current.user).toBeNull();
-    expect(window.sessionStorage.getItem("moderndvwa.session")).toBeNull();
+    expect(window.sessionStorage.getItem("hyperion.session")).toBeNull();
   });
 });

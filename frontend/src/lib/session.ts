@@ -1,4 +1,4 @@
-const TOKEN_KEY = "moderndvwa.session";
+const TOKEN_KEY = "hyperion.session";
 
 export function loadSessionToken(): string | null {
   return window.sessionStorage.getItem(TOKEN_KEY);

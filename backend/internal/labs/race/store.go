@@ -9,7 +9,7 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"moderndvwa/backend/internal/labs"
+	"hyperion/backend/internal/labs"
 )
 
 const LabSlug = "race-condition"

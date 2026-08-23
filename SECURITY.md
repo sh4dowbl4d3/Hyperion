@@ -2,7 +2,7 @@
 
 ## Purpose and Intended Use
 
-ModernDVWA is a **deliberately vulnerable training platform** for learning
+Hyperion is a **deliberately vulnerable training platform** for learning
 about web application security in a safe, local environment.
 
 - Run it **only on your own machine or an isolated lab network**.

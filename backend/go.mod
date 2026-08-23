@@ -1,4 +1,4 @@
-module moderndvwa/backend
+module hyperion/backend
 
 go 1.26.5
 

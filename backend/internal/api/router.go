@@ -8,14 +8,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"moderndvwa/backend/internal/auth"
-	"moderndvwa/backend/internal/httpx"
-	"moderndvwa/backend/internal/labs"
-	"moderndvwa/backend/internal/middleware"
+	"hyperion/backend/internal/auth"
+	"hyperion/backend/internal/httpx"
+	"hyperion/backend/internal/labs"
+	"hyperion/backend/internal/middleware"
 )
 
 const (
-	ServiceName    = "moderndvwa-api"
+	ServiceName    = "hyperion-api"
 	ServiceVersion = "0.1.0"
 
 	readinessTimeout = 2 * time.Second

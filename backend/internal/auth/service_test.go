@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"moderndvwa/backend/internal/users"
+	"hyperion/backend/internal/users"
 )
 
 type fakeStore struct {

@@ -10,8 +10,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"moderndvwa/backend/internal/labs"
-	"moderndvwa/backend/internal/middleware"
+	"hyperion/backend/internal/labs"
+	"hyperion/backend/internal/middleware"
 )
 
 type fakeFetcher struct {
@@ -156,7 +156,7 @@ func TestValidatePublicURLAllowsPublicHosts(t *testing.T) {
 	allowed := []string{
 		"https://example.com/page",
 		"http://203.0.113.7/data.json",
-		"https://training.moderndvwa.test/docs",
+		"https://training.hyperion.test/docs",
 	}
 	for _, u := range allowed {
 		if err := ValidatePublicURL(u); err != nil {

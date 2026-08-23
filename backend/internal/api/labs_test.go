@@ -9,7 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"moderndvwa/backend/internal/labs"
+	"hyperion/backend/internal/labs"
 )
 
 type fakeCatalog struct {

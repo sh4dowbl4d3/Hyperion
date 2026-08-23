@@ -8,10 +8,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"moderndvwa/backend/internal/auth"
-	"moderndvwa/backend/internal/httpx"
-	"moderndvwa/backend/internal/middleware"
-	"moderndvwa/backend/internal/users"
+	"hyperion/backend/internal/auth"
+	"hyperion/backend/internal/httpx"
+	"hyperion/backend/internal/middleware"
+	"hyperion/backend/internal/users"
 )
 
 type AuthHandler struct {

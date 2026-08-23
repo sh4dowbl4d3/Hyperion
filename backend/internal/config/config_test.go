@@ -14,7 +14,7 @@ const testSecret = "test-secret-0123456789abcdef0123456789abcdef"
 
 func TestLoadDefaults(t *testing.T) {
 	env := map[string]string{
-		"DATABASE_DSN": "postgres://moderndvwa:devpassword@localhost:5432/moderndvwa?sslmode=disable",
+		"DATABASE_DSN": "postgres://hyperion:devpassword@localhost:5432/hyperion?sslmode=disable",
 		"JWT_SECRET":   testSecret,
 	}
 	cfg, err := Load(envLookup(env))

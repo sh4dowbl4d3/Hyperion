@@ -12,8 +12,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"moderndvwa/backend/internal/auth"
-	"moderndvwa/backend/internal/users"
+	"hyperion/backend/internal/auth"
+	"hyperion/backend/internal/users"
 )
 
 const endpointTestSecret = "endpoint-test-secret-0123456789abcdef-0123"

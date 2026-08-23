@@ -1,7 +1,7 @@
 package main
 
 import (
-	"moderndvwa/backend/internal/labs"
+	"hyperion/backend/internal/labs"
 )
 
 func registryMetas(registry *labs.Registry) []labs.Meta {

@@ -1,6 +1,6 @@
-# ModernDVWA
+# Hyperion
 
-ModernDVWA is a modern, intentionally vulnerable cybersecurity training platform
+Hyperion is a modern, intentionally vulnerable cybersecurity training platform
 inspired by [DVWA](https://github.com/digininja/DVWA), redesigned around the way
 real applications are built today: REST APIs, token-based authentication,
 client-side rendering, and containerized infrastructure.
@@ -45,7 +45,7 @@ A shared demo account is seeded automatically so you can sign in without
 registering:
 
 ```
-Email:    demo@moderndvwa.test
+Email:    demo@hyperion.test
 Password: Password123!
 ```
 
@@ -80,7 +80,7 @@ For local (non-Docker) development see [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Legal & Intended Use
 
-ModernDVWA is an educational platform. All vulnerabilities are intentional,
+Hyperion is an educational platform. All vulnerabilities are intentional,
 isolated, and exist only inside lab endpoints backed by synthetic data.
 Never expose this application to untrusted networks. See
 [SECURITY.md](SECURITY.md).

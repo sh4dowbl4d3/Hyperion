@@ -7,8 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"moderndvwa/backend/internal/auth"
-	"moderndvwa/backend/internal/httpx"
+	"hyperion/backend/internal/auth"
+	"hyperion/backend/internal/httpx"
 )
 
 const (

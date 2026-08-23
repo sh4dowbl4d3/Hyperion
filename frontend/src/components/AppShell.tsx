@@ -29,7 +29,7 @@ export function AppShell() {
               M
             </span>
             <span className="text-body font-semibold tracking-[0.02em] text-charcoal-ink">
-              ModernDVWA
+              Hyperion
             </span>
           </NavLink>
 

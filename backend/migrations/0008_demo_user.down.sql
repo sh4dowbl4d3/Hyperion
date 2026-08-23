@@ -1,1 +1,1 @@
-DELETE FROM users WHERE email = 'demo@moderndvwa.test';
+DELETE FROM users WHERE email = 'demo@hyperion.test';

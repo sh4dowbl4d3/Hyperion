@@ -1,4 +1,4 @@
-name: moderndvwa
+name: hyperion
 
 services:
   postgres:

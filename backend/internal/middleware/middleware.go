@@ -9,7 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"moderndvwa/backend/internal/httpx"
+	"hyperion/backend/internal/httpx"
 )
 
 const RequestIDHeader = "X-Request-Id"

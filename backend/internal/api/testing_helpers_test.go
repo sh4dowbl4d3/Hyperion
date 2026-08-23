@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"moderndvwa/backend/internal/auth"
+	"hyperion/backend/internal/auth"
 )
 
 func discardAPILogger() *slog.Logger {

@@ -13,7 +13,7 @@ export function AuthLayout({ children }: { children: ReactNode }) {
             M
           </span>
           <span className="text-body font-semibold tracking-[0.02em] text-charcoal-ink">
-            ModernDVWA
+            Hyperion
           </span>
         </div>
 

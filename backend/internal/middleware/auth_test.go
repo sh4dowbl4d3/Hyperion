@@ -9,7 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"moderndvwa/backend/internal/auth"
+	"hyperion/backend/internal/auth"
 )
 
 const testSecret = "middleware-test-secret-0123456789abcdef"

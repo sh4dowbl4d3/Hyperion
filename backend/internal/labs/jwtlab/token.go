@@ -15,7 +15,7 @@ import (
 // this lab's isolated flow. The platform auth service is untouched.
 const (
 	WeakSecret   = "secret"
-	IssuerLab    = "moderndvwa-jwt-lab"
+	IssuerLab    = "hyperion-jwt-lab"
 	FlagPayload  = "FLAG-JWT-5c2e91: forged admin token accepted"
 )
 

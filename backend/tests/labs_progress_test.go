@@ -9,10 +9,10 @@ import (
 	"testing"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"moderndvwa/backend/internal/database"
-	"moderndvwa/backend/internal/labs"
-	"moderndvwa/backend/internal/users"
-	"moderndvwa/backend/migrations"
+	"hyperion/backend/internal/database"
+	"hyperion/backend/internal/labs"
+	"hyperion/backend/internal/users"
+	"hyperion/backend/migrations"
 )
 
 type progressFixture struct {

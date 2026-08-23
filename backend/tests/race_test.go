@@ -7,7 +7,7 @@ import (
 	"sync"
 	"testing"
 
-	"moderndvwa/backend/internal/labs/race"
+	"hyperion/backend/internal/labs/race"
 )
 
 // TestRaceVulnerablePathOverRedeems proves the TOCTOU flaw: many concurrent

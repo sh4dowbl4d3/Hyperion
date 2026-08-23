@@ -12,8 +12,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"moderndvwa/backend/internal/labs"
-	"moderndvwa/backend/internal/middleware"
+	"hyperion/backend/internal/labs"
+	"hyperion/backend/internal/middleware"
 )
 
 type fakeCompleter struct {
