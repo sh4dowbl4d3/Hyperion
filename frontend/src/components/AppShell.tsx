@@ -4,7 +4,7 @@ import { useAuth } from "../hooks/useAuth";
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: SquaresFour, enabled: true },
-  { to: "/labs", label: "Labs", icon: ListChecks, enabled: false },
+  { to: "/labs", label: "Labs", icon: ListChecks, enabled: true },
 ];
 
 export function AppShell() {
@@ -44,32 +44,19 @@ export function AppShell() {
           <ul className="sticky top-12 flex flex-col gap-1">
             {navItems.map((item) => (
               <li key={item.to}>
-                {item.enabled ? (
-                  <NavLink
-                    to={item.to}
-                    className={({ isActive }) =>
-                      `flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-medium transition-colors ${
-                        isActive
-                          ? "bg-ink-850 text-fog-100"
-                          : "text-fog-300 hover:bg-ink-900 hover:text-fog-100"
-                      }`
-                    }
-                  >
-                    <item.icon size={18} aria-hidden />
-                    {item.label}
-                  </NavLink>
-                ) : (
-                  <span
-                    aria-disabled
-                    className="flex cursor-not-allowed items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-medium text-fog-400/60"
-                  >
-                    <item.icon size={18} aria-hidden />
-                    {item.label}
-                    <span className="ml-auto rounded border border-ink-700 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wide text-fog-400">
-                      soon
-                    </span>
-                  </span>
-                )}
+                <NavLink
+                  to={item.to}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-medium transition-colors ${
+                      isActive
+                        ? "bg-ink-850 text-fog-100"
+                        : "text-fog-300 hover:bg-ink-900 hover:text-fog-100"
+                    }`
+                  }
+                >
+                  <item.icon size={18} aria-hidden />
+                  {item.label}
+                </NavLink>
               </li>
             ))}
           </ul>

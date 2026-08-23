@@ -5,6 +5,8 @@ import { AppShell } from "./components/AppShell";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import Labs from "./pages/Labs";
+import LabDetailPage from "./pages/LabDetail";
 
 export default function App() {
   return (
@@ -16,6 +18,8 @@ export default function App() {
         <Route element={<ProtectedRoute />}>
           <Route element={<AppShell />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/labs" element={<Labs />} />
+            <Route path="/labs/:slug" element={<LabDetailPage />} />
           </Route>
         </Route>
 
