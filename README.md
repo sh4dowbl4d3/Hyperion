@@ -29,11 +29,28 @@ isolated Docker environment.
 | JWT Vulnerability | Authentication | Medium | 150 |
 | SSRF | Request Forgery | Medium | 150 |
 | Race Condition | Business Logic | Hard | 200 |
+| Open Redirect | Request Forgery | Easy | 100 |
+| Command Injection | Injection | Medium | 150 |
 
 Per-lab guides with objectives, walkthroughs and mitigations live in
 [`docs/labs/`](docs/labs/) ([sqli](docs/labs/sqli.md),
 [xss](docs/labs/xss.md), [idor](docs/labs/idor.md), [jwt](docs/labs/jwt.md),
-[ssrf](docs/labs/ssrf.md), [race-condition](docs/labs/race-condition.md)).
+[ssrf](docs/labs/ssrf.md), [race-condition](docs/labs/race-condition.md),
+[open-redirect](docs/labs/open-redirect.md),
+[command-injection](docs/labs/command-injection.md)).
+
+## Default Credentials
+
+A shared demo account is seeded automatically so you can sign in without
+registering:
+
+```
+Email:    demo@moderndvwa.test
+Password: Password123!
+```
+
+You can also register your own account — every account sees the same labs and
+tracks its own progress independently.
 
 ## Quick Start
 
