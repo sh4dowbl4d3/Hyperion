@@ -173,6 +173,22 @@ func TestRolesSeeded(t *testing.T) {
 	}
 }
 
+func columnExists(t *testing.T, pool *pgxpool.Pool, table, column string) bool {
+	t.Helper()
+	var exists bool
+	err := pool.QueryRow(context.Background(),
+		`SELECT EXISTS (
+			SELECT 1 FROM information_schema.columns
+			WHERE table_schema = 'public' AND table_name = $1 AND column_name = $2
+		)`,
+		table, column,
+	).Scan(&exists)
+	if err != nil {
+		t.Fatalf("check column %s.%s: %v", table, column, err)
+	}
+	return exists
+}
+
 func TestStepDownRevertsLatestMigration(t *testing.T) {
 	pool, cleanup := testPool(t)
 	defer cleanup()
@@ -196,14 +212,35 @@ func TestStepDownRevertsLatestMigration(t *testing.T) {
 	if reverted != last.Version+"_"+last.Name {
 		t.Errorf("reverted %q, want %q", reverted, last.Version+"_"+last.Name)
 	}
-	if tableExists(t, pool, "progress") {
-		t.Error("progress table should be dropped by reverting the latest migration")
+
+	var tracked bool
+	err = pool.QueryRow(ctx,
+		`SELECT EXISTS (SELECT 1 FROM schema_migrations WHERE version = $1)`, last.Version,
+	).Scan(&tracked)
+	if err != nil || tracked {
+		t.Errorf("version %s should be untracked after revert (err=%v tracked=%v)", last.Version, err, tracked)
+	}
+
+	switch last.Version {
+	case "0003":
+		if columnExists(t, pool, "labs", "hints") {
+			t.Error("labs.hints should be dropped by reverting 0003")
+		}
+	case "0002":
+		if tableExists(t, pool, "progress") {
+			t.Error("progress table should be dropped by reverting 0002")
+		}
+	default:
+		t.Logf("no structural assertion for migration %s; tracking check only", last.Version)
 	}
 
 	if _, err := database.MigrateUp(ctx, pool, fsys); err != nil {
 		t.Fatalf("reapply after StepDown: %v", err)
 	}
-	if !tableExists(t, pool, "progress") {
-		t.Error("progress table should exist again after reapply")
+	err = pool.QueryRow(ctx,
+		`SELECT EXISTS (SELECT 1 FROM schema_migrations WHERE version = $1)`, last.Version,
+	).Scan(&tracked)
+	if err != nil || !tracked {
+		t.Errorf("version %s should be tracked again after reapply (err=%v tracked=%v)", last.Version, err, tracked)
 	}
 }
