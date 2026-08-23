@@ -54,6 +54,7 @@ For local (non-Docker) development see [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Documentation
 
+- [LICENSE](LICENSE) — GNU General Public License v3
 - [ARCHITECTURE.md](ARCHITECTURE.md) — system design and lab engine
 - [DEVELOPMENT.md](DEVELOPMENT.md) — development workflow and testing
 - [SECURITY.md](SECURITY.md) — security boundaries and responsible use
