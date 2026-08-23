@@ -14,6 +14,7 @@ import (
 	"moderndvwa/backend/internal/httpx"
 	"moderndvwa/backend/internal/labs"
 	"moderndvwa/backend/internal/labs/sqli"
+	"moderndvwa/backend/internal/labs/xss"
 	"moderndvwa/backend/internal/logging"
 	"moderndvwa/backend/internal/users"
 	"moderndvwa/backend/migrations"
@@ -70,6 +71,9 @@ func run() error {
 
 	sqliStore := sqli.NewPgStore(pool)
 	registry.MustRegister(sqli.NewLab(sqliStore, progressStore))
+
+	xssStore := xss.NewPgStore(pool)
+	registry.MustRegister(xss.NewLab(xssStore, progressStore))
 
 	if err := catalogRepo.Seed(ctx, registryMetas(registry)); err != nil {
 		return err
