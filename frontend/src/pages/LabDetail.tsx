@@ -10,6 +10,7 @@ import {
 } from "@phosphor-icons/react";
 import { getLab } from "../services/labService";
 import type { LabDetail } from "../types/lab";
+import { LabPlayground } from "../components/LabPlayground";
 
 export default function LabDetailPage() {
   const { slug = "" } = useParams();
@@ -77,6 +78,8 @@ export default function LabDetailPage() {
       </div>
 
       <p className="mt-4 max-w-[65ch] leading-relaxed text-fog-300">{lab.description}</p>
+
+      <LabPlayground slug={slug} />
 
       <section className="mt-8 rounded-xl border border-ink-800 bg-ink-900 p-6 sm:p-8">
         <h2 className="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-fog-100">
