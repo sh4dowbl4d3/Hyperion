@@ -15,6 +15,8 @@ isolated Docker environment.
 - PostgreSQL persistence with SQL migrations
 - Reusable lab engine: every lab ships vulnerable behavior *and* a secure
   reference implementation, plus completion detection, hints and XP tracking
+- In-app lab playground: drive every vulnerable endpoint (and its safe twin)
+  from the lab detail page — no curl required
 - Fully containerized with Docker Compose; no host filesystem access required
 
 ## MVP Labs
@@ -43,7 +45,10 @@ docker compose up --build     # start postgres, backend, frontend
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:8080/api/v1/healthz
 
-Register an account in the UI, then pick a lab from the dashboard.
+Register an account in the UI, then pick a lab from the dashboard. Each lab
+page includes a **Playground** panel for interacting with its endpoints; the
+Race Condition lab adds one-click burst firing to win the race without any
+scripting.
 
 For local (non-Docker) development see [DEVELOPMENT.md](DEVELOPMENT.md).
 
