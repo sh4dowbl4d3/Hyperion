@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -15,6 +16,7 @@ import (
 	"moderndvwa/backend/internal/labs"
 	"moderndvwa/backend/internal/labs/idor"
 	"moderndvwa/backend/internal/labs/jwtlab"
+	"moderndvwa/backend/internal/labs/ssrf"
 	"moderndvwa/backend/internal/labs/sqli"
 	"moderndvwa/backend/internal/labs/xss"
 	"moderndvwa/backend/internal/logging"
@@ -81,6 +83,15 @@ func run() error {
 	registry.MustRegister(idor.NewLab(idorStore, progressStore))
 
 	registry.MustRegister(jwtlab.NewLab(progressStore))
+
+	ssrfCtx, ssrfCancel := context.WithCancel(ctx)
+	defer ssrfCancel()
+	internalBaseURL, err := ssrf.StartInternalService(ssrfCtx)
+	if err != nil {
+		return fmt.Errorf("start internal lab service: %w", err)
+	}
+	log.Info("internal lab service listening", slog.String("base_url", internalBaseURL))
+	registry.MustRegister(ssrf.NewLab(ssrf.NewHTTPFetcher(), progressStore, internalBaseURL))
 
 	if err := catalogRepo.Seed(ctx, registryMetas(registry)); err != nil {
 		return err
