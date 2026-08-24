@@ -33,3 +33,6 @@ docker-compose.override.yml
 
 # opencode local
 .opencode
+
+# Agent handoff doc (untracked)
+PROJECT_CONTEXT.md
