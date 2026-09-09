@@ -13,14 +13,17 @@ type Result = {
   body: string;
 };
 
-function buildPath(endpoint: PlaygroundEndpoint, values: Record<string, string>): string {
-  let path = `targets/${endpoint.path}`;
+function buildPath(slug: string, endpoint: PlaygroundEndpoint, values: Record<string, string>): string {
+  let path = `targets/${slug}/${endpoint.path}`;
   for (const param of endpoint.params ?? []) {
-    const value = encodeURIComponent(values[param.name] ?? "");
+    const rawVal = values[param.name] ?? "";
+    const value = encodeURIComponent(rawVal);
     if (path.includes(`:${param.name}`)) {
       path = path.replace(`:${param.name}`, value);
-    } else {
-      path += (path.includes("?") ? "&" : "?") + `${param.name}=${value}`;
+    } else if (!endpoint.bodyTemplate || !(param.name in endpoint.bodyTemplate)) {
+      if (param.name !== "badge") {
+        path += (path.includes("?") ? "&" : "?") + `${param.name}=${value}`;
+      }
     }
   }
   return path;
@@ -29,16 +32,16 @@ function buildPath(endpoint: PlaygroundEndpoint, values: Record<string, string>)
 function fillBody(
   template: Record<string, string> | undefined,
   values: Record<string, string>,
-): string | undefined {
+): Record<string, string> | undefined {
   if (!template) return undefined;
   const filled: Record<string, string> = {};
   for (const [key, raw] of Object.entries(template)) {
     filled[key] = raw.replace(/%PARAM:(\w+)%/g, (_, name) => values[name] ?? "");
   }
-  return JSON.stringify(filled);
+  return filled;
 }
 
-export function LabPlayground({ slug }: { slug: string }) {
+export function LabPlayground({ slug, onComplete }: { slug: string; onComplete?: () => void }) {
   const endpoints = PLAYGROUNDS[slug];
   const [values, setValues] = useState<Record<string, Record<string, string>>>({});
   const [results, setResults] = useState<Record<string, Result | null>>({});
@@ -51,10 +54,13 @@ export function LabPlayground({ slug }: { slug: string }) {
     setBusy(key);
     setResults((prev) => ({ ...prev, [key]: null }));
     try {
-      const path = buildPath(endpoint, paramValues);
+      const path = buildPath(slug, endpoint, paramValues);
       const headers: Record<string, string> = {};
       const badge = paramValues["badge"];
-      if (badge) headers["X-Lab-Badge"] = `Bearer ${badge}`;
+      if (badge) {
+        const cleanBadge = badge.trim().replace(/^Bearer\s+/i, "");
+        headers["X-Lab-Badge"] = `Bearer ${cleanBadge}`;
+      }
       // Badge goes via header, not query — keep it out of URLs.
       const cleanPath = badge
         ? path.replace(/([?&])badge=[^&]*/, "$1").replace(/[?&]$/, "")
@@ -81,9 +87,10 @@ export function LabPlayground({ slug }: { slug: string }) {
         [key]: {
           label: endpoint.label,
           status: 200,
-          body: JSON.stringify(payload, null, 2),
+          body: typeof payload === "string" ? payload : JSON.stringify(payload, null, 2),
         },
       }));
+      onComplete?.();
     } finally {
       setBusy(null);
     }
@@ -135,6 +142,9 @@ export function LabPlayground({ slug }: { slug: string }) {
           ].join("\n"),
         },
       }));
+      if (over) {
+        onComplete?.();
+      }
     } finally {
       setBusy(null);
     }

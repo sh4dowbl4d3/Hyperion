@@ -27,6 +27,10 @@ export default function LabDetailPage() {
     return () => controller.abort();
   }, [slug]);
 
+  function reloadLab() {
+    getLab(slug).then(setLab).catch(() => {});
+  }
+
   if (error) {
     return (
       <div className="border-2 border-charcoal-ink bg-canary-banner p-6 shadow-offset">
@@ -96,7 +100,7 @@ export default function LabDetailPage() {
         </p>
       </section>
 
-      <LabPlayground slug={slug} />
+      <LabPlayground slug={slug} onComplete={reloadLab} />
 
       {/* Hints */}
       <section className="mt-6 border-2 border-charcoal-ink bg-frost-white p-7 shadow-offset sm:p-9">
