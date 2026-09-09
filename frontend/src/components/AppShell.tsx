@@ -98,11 +98,69 @@ export function AppShell() {
         <Outlet />
       </main>
 
-      {/* Canary marquee footer band */}
-      <footer className="overflow-hidden bg-canary-banner py-3">
-        <p className="whitespace-nowrap text-center text-subheading font-medium uppercase tracking-[0.02em] text-charcoal-ink">
-          LOCAL ENVIRONMENT · SYNTHETIC DATA · NO EXTERNAL TARGETS · LOCAL ENVIRONMENT · SYNTHETIC DATA · NO EXTERNAL TARGETS
-        </p>
+      {/* Site footer */}
+      <footer className="border-t-2 border-charcoal-ink bg-frost-white">
+        <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-6 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2.5">
+              <span
+                aria-hidden
+                className="flex size-6 items-center justify-center border-2 border-charcoal-ink bg-duck-bill-orange text-[11px] font-semibold text-charcoal-ink"
+              >
+                M
+              </span>
+              <span className="text-body font-semibold tracking-[0.02em] text-charcoal-ink">
+                Hyperion
+              </span>
+              <span className="border border-charcoal-ink bg-chalk-gray px-1.5 py-0.5 font-mono text-[10px] text-pencil-gray">
+                v0.1.0
+              </span>
+            </div>
+            <p className="max-w-md text-caption leading-relaxed tracking-[0.02em] text-pencil-gray">
+              Intentionally vulnerable security training runtime. Hands-on labs for modern web application vulnerabilities.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-6 sm:gap-8">
+            <nav aria-label="Footer navigation">
+              <ul className="flex items-center gap-4 text-body-sm font-medium uppercase tracking-[0.02em]">
+                <li>
+                  <NavLink
+                    to="/dashboard"
+                    className="text-charcoal-ink underline decoration-graphite underline-offset-4 transition-colors hover:decoration-charcoal-ink"
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/labs"
+                    className="text-charcoal-ink underline decoration-graphite underline-offset-4 transition-colors hover:decoration-charcoal-ink"
+                  >
+                    Labs
+                  </NavLink>
+                </li>
+              </ul>
+            </nav>
+
+            {/* Crayon sketch decoration swatches */}
+            <div aria-hidden className="flex items-center gap-1.5">
+              <span className="size-3.5 border border-charcoal-ink bg-sky-crayon" />
+              <span className="size-3.5 border border-charcoal-ink bg-canary-banner" />
+              <span className="size-3.5 border border-charcoal-ink bg-coral-sketch" />
+              <span className="size-3.5 border border-charcoal-ink bg-mint-sketch" />
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-graphite/30 bg-chalk-gray/50 py-3">
+          <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center justify-between gap-2 px-4 text-caption text-pencil-gray sm:flex-row sm:px-6">
+            <p>© 2026 Hyperion Security. For educational and defensive research only.</p>
+            <p className="font-mono text-[10px] tracking-wider text-charcoal-ink/60">
+              LOCAL SANDBOX · SYNTHETIC TARGETS
+            </p>
+          </div>
+        </div>
       </footer>
     </div>
   );
