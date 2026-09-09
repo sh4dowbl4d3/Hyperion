@@ -40,6 +40,15 @@ export default function Labs() {
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
 
+  function loadCatalog() {
+    setError(null);
+    listLabs()
+      .then(setLabs)
+      .catch(() => {
+        setError("Could not load labs. Is the backend running?");
+      });
+  }
+
   useEffect(() => {
     const controller = new AbortController();
     listLabs()
@@ -87,9 +96,18 @@ export default function Labs() {
       </div>
 
       {error && (
-        <div className="mt-8 flex items-center gap-2.5 border border-[#ff5555] border-l-4 border-l-[#ff5555] bg-[#161614] px-4 py-3 text-sm text-[#eeeeee]">
-          <span className="size-2 shrink-0 bg-[#ff5555]" aria-hidden />
-          {error}
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border border-[#ff5555] border-l-4 border-l-[#ff5555] bg-[#161614] px-4 py-3 text-sm text-[#eeeeee]">
+          <div className="flex items-center gap-2.5">
+            <span className="size-2 shrink-0 bg-[#ff5555]" aria-hidden />
+            {error}
+          </div>
+          <button
+            type="button"
+            onClick={loadCatalog}
+            className="border border-[#ffa133] bg-[#ffa133] px-3 py-1 text-xs uppercase font-medium tracking-[0.04em] text-black transition-colors hover:bg-[#e47b1a]"
+          >
+            Retry
+          </button>
         </div>
       )}
 
