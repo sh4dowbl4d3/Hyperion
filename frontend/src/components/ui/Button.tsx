@@ -11,15 +11,15 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const variantClasses: Record<ButtonVariant, string> = {
-  // Sky-crayon filled action — the only chromatic fill in the system.
+  // Primary action — Enamel (#eeeeee) fill with dark text
   primary:
-    "bg-sky-crayon text-charcoal-ink border-2 border-charcoal-ink hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none active:translate-x-[6px] active:translate-y-[6px] active:shadow-none font-medium",
-  // Charcoal outlined companion.
+    "bg-[#eeeeee] text-[#111111] border border-[#eeeeee] hover:bg-white hover:border-white active:bg-[#ffa133] active:border-[#ffa133] font-medium",
+  // Ghost / Outline — Departure Mono Mud border and text
   ghost:
-    "bg-frost-white text-charcoal-ink border-2 border-charcoal-ink hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none active:translate-x-[6px] active:translate-y-[6px] active:shadow-none font-medium",
-  // Canary highlight — decorative emphasis (race bursts).
+    "bg-transparent text-[#8a8a6f] border border-[#8a8a6f] hover:bg-[#222222] hover:text-[#eeeeee] hover:border-[#eeeeee] active:bg-[#eeeeee] active:text-[#111111] font-medium",
+  // Accent / Amber highlight
   coral:
-    "bg-canary-banner text-charcoal-ink border-2 border-charcoal-ink hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none active:translate-x-[6px] active:translate-y-[6px] active:shadow-none font-medium",
+    "bg-[#ffa133] text-[#111111] border border-[#ffa133] hover:bg-[#e47b1a] hover:border-[#e47b1a] font-medium",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
@@ -30,7 +30,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     <button
       ref={ref}
       disabled={disabled ?? loading}
-      className={`inline-flex h-11 items-center justify-center gap-2 rounded-[2px] px-5 text-body-sm uppercase tracking-[0.02em] transition-all duration-100 shadow-offset disabled:cursor-not-allowed disabled:opacity-55 ${variantClasses[variant]} ${className}`}
+      className={`inline-flex h-11 items-center justify-center gap-2 rounded-none px-5 text-body-sm uppercase tracking-[0.04em] transition-colors duration-100 disabled:cursor-not-allowed disabled:opacity-50 disabled:border-[#333333] disabled:text-[#666655] disabled:bg-[#161614] ${variantClasses[variant]} ${className}`}
       {...rest}
     >
       {loading && <CircleNotch size={16} className="animate-spin" aria-hidden />}

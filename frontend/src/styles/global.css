@@ -1,66 +1,152 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Departure Mono";
+  src: url("/fonts/DepartureMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  /* MotherDuck — crayon-coded terminal on cream paper */
-  --color-cream-paper: #f4efea;
-  --color-frost-white: #ffffff;
-  --color-chalk-gray: #f8f8f7;
-  --color-ice-wash: #ebf9ff;
-  --color-notebook-pale: #f9fbe7;
-  --color-charcoal-ink: #383838;
-  --color-pencil-gray: #a1a1a1;
-  --color-graphite: #818181;
-  --color-soft-silver: #c0c0c0;
-  --color-sky-crayon: #6fc2ff;
-  --color-canary-banner: #ffde00;
-  --color-duck-bill-orange: #ff9538;
-  --color-coral-sketch: #f38e84;
-  --color-peach-sketch: #f5b161;
-  --color-mint-sketch: #38c1b0;
-  --color-lilac-sketch: #b291de;
-  --color-lime-sketch: #b3c419;
-  --color-periwinkle-sketch: #7597ee;
-  --color-slate-sketch: #84a6bc;
-  --color-marigold-sketch: #e1c427;
-  --color-wet-cement: #54b4de;
-  --color-peach-blush: #fdedda;
+  /* Departure Mono Official Design System Tokens */
+  --font-display: "Departure Mono", ui-monospace, monospace;
+  --font-sans: "Departure Mono", ui-monospace, monospace;
+  --font-mono: "Departure Mono", ui-monospace, monospace;
 
-  /* Monospace-first typography (Aeonik Mono → JetBrains Mono substitute) */
-  --font-display: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-sans: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Typography Scale */
+  --font-size-xs: 11px;
+  --font-size-sm: 14px;
+  --font-size-md: 16.5px;
+  --font-size-lg: 44px;
+  --font-size-xl: 88px;
 
-  /* Type scale */
+  /* Base Text Scale */
   --text-caption: 11px;
   --text-body-sm: 12px;
   --text-body: 14px;
-  --text-body-lg: 16px;
+  --text-body-lg: 16.5px;
   --text-subheading: 18px;
-  --text-heading-sm: 24px;
+  --text-heading-sm: 22px;
   --text-heading: 32px;
-  --text-heading-lg: 40px;
-  --text-display: 56px;
+  --text-heading-lg: 44px;
+  --text-display: 64px;
 
-  /* Neo-brutalist geometry — everything is 2px */
-  --radius-card: 2px;
-  --radius-pill: 2px;
-  --radius-small: 2px;
+  /* Strict Zero Radius */
+  --radius-card: 0px;
+  --radius-pill: 0px;
+  --radius-small: 0px;
+  --radius-none: 0px;
 
-  /* Hard offset shadow elevation */
-  --shadow-offset: rgb(56, 56, 56) -6px 6px 0px 0px;
+  /* No neo-brutalist offset shadow, strict terminal border aesthetic */
+  --shadow-offset: none;
+
+  /* Surfaces */
+  --color-surface-base: #000000;
+  --color-surface-muted: #161614;
+  --color-surface-raised: #8e8e8e;
+  --color-surface-strong: #eeeeee;
+
+  /* Departure Mono Palette */
+  --color-carbon: #222222;
+  --color-mud: #8a8a6f;
+  --color-ash: #8e8e8e;
+  --color-enamel: #eeeeee;
+  --color-soot: #333333;
+  --color-amber: #ffa133;
+  --color-pumpkin: #e47b1a;
+
+  /* Semantic Theme Colors */
+  --color-text-primary: #8a8a6f;
+  --color-text-secondary: #777766;
+  --color-text-tertiary: #555544;
+  --color-text-inverse: #111111;
+
+  --color-accent-primary: #ffa133;
+  --color-accent-pumpkin: #e47b1a;
+  --color-accent-flux: #c8be50;
+  --color-accent-highlight: #bccabb;
+
+  --color-border-subtle: #2a2a26;
+  --color-border-focus: #eeeeee;
+  --color-state-error: #ff5555;
+  --color-state-success: #55ff55;
+
+  /* Compatibility mappings for existing utility classes */
+  --color-cream-paper: #000000;
+  --color-frost-white: #0d0d0b;
+  --color-chalk-gray: #161614;
+  --color-ice-wash: #222220;
+  --color-notebook-pale: #1c1a14;
+  --color-charcoal-ink: #8a8a6f;
+  --color-pencil-gray: #777766;
+  --color-graphite: #333330;
+  --color-soft-silver: #444440;
+  --color-sky-crayon: #ffa133;
+  --color-canary-banner: #ffa133;
+  --color-duck-bill-orange: #ffa133;
+  --color-coral-sketch: #ff5555;
+  --color-peach-sketch: #e47b1a;
+  --color-mint-sketch: #55ff55;
+  --color-lilac-sketch: #8e8e8e;
+  --color-lime-sketch: #c8be50;
+  --color-periwinkle-sketch: #8a8a6f;
+  --color-slate-sketch: #666655;
+  --color-marigold-sketch: #ffa133;
+  --color-wet-cement: #8e8e8e;
+  --color-peach-blush: #1a1a18;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  border-radius: 0px !important;
 }
 
 html,
 body,
 #root {
   height: 100%;
+  background-color: #000000;
+  color: #8a8a6f;
+  font-family: "Departure Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 body {
-  @apply bg-cream-paper text-charcoal-ink font-mono antialiased tracking-[0.02em];
+  @apply bg-black text-[#8a8a6f] font-mono antialiased;
+  letter-spacing: 0.03em;
+}
+
+/* Strict Focus-Visible Styling */
+*:focus {
+  outline: none;
 }
 
 *:focus-visible {
-  outline: 2px solid var(--color-charcoal-ink);
+  outline: 2px solid var(--color-border-focus);
   outline-offset: 2px;
+}
+
+/* Monospace Terminal Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+  border: 1px solid #222222;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222222;
+  border: 1px solid #333333;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8a8a6f;
+}
+
+::selection {
+  background-color: #bccabb;
+  color: #000000;
 }

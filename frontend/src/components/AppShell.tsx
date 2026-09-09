@@ -16,20 +16,23 @@ export function AppShell() {
   }
 
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-cream-paper">
-      {/* Flat top navigation bar */}
-      <header className="border-b border-charcoal-ink bg-frost-white">
+    <div className="flex min-h-[100dvh] flex-col bg-black text-[#8a8a6f]">
+      {/* Terminal top navigation bar */}
+      <header className="border-b border-[#2a2a26] bg-black">
         <div className="mx-auto flex h-14 w-full max-w-[1200px] items-center justify-between px-4 sm:px-6">
           {/* Logo */}
           <NavLink to="/dashboard" className="flex items-center gap-2.5">
             <span
               aria-hidden
-              className="flex size-7 items-center justify-center border-2 border-charcoal-ink bg-duck-bill-orange text-xs font-semibold"
+              className="flex size-7 items-center justify-center border border-[#ffa133] bg-[#ffa133] text-xs font-bold text-black"
             >
-              M
+              ▶
             </span>
-            <span className="text-body font-semibold tracking-[0.02em] text-charcoal-ink">
-              Hyperion
+            <span className="text-body font-semibold tracking-[0.06em] text-[#eeeeee]">
+              HYPERION
+            </span>
+            <span className="hidden sm:inline border-l border-[#333333] pl-2 text-[11px] text-[#777766]">
+              SEC-LABS
             </span>
           </NavLink>
 
@@ -44,10 +47,10 @@ export function AppShell() {
                   <NavLink
                     to={item.to}
                     className={({ isActive }) =>
-                      `px-3 py-1.5 text-body-sm transition-colors ${
+                      `px-3 py-1.5 text-body-sm tracking-[0.04em] transition-colors ${
                         isActive
-                          ? "bg-ice-wash font-medium text-charcoal-ink"
-                          : "text-charcoal-ink hover:bg-chalk-gray"
+                          ? "bg-[#222222] font-medium text-[#eeeeee] border-b-2 border-[#ffa133]"
+                          : "text-[#8a8a6f] hover:text-[#eeeeee] hover:bg-[#161614]"
                       }`
                     }
                   >
@@ -60,29 +63,29 @@ export function AppShell() {
 
           <div className="flex items-center gap-3">
             <span
-              className="hidden max-w-[180px] truncate text-caption text-pencil-gray md:inline"
+              className="hidden max-w-[180px] truncate text-caption text-[#777766] md:inline"
               title={user?.email}
             >
               {user?.email}
             </span>
             <button
               onClick={handleLogout}
-              className="border-2 border-charcoal-ink bg-sky-crayon px-3 py-1.5 text-caption font-medium uppercase tracking-[0.02em] text-charcoal-ink transition-transform hover:translate-x-[2px] hover:translate-y-[2px]"
+              className="border border-[#8a8a6f] bg-transparent px-3 py-1.5 text-caption font-medium uppercase tracking-[0.04em] text-[#8a8a6f] transition-colors hover:bg-[#8a8a6f] hover:text-black active:bg-[#ffa133] active:border-[#ffa133]"
             >
               LOG OUT
             </button>
           </div>
         </div>
         {/* Mobile nav row */}
-        <nav aria-label="Mobile navigation" className="border-t border-graphite sm:hidden">
+        <nav aria-label="Mobile navigation" className="border-t border-[#2a2a26] sm:hidden">
           <ul className="mx-auto flex w-full max-w-[1200px]">
             {navItems.map((item) => (
               <li key={item.to} className="flex-1">
                 <NavLink
                   to={item.to}
                   className={({ isActive }) =>
-                    `block px-4 py-2.5 text-center text-body-sm ${
-                      isActive ? "bg-ice-wash font-medium" : "text-charcoal-ink"
+                    `block px-4 py-2.5 text-center text-body-sm tracking-[0.04em] ${
+                      isActive ? "bg-[#222222] font-medium text-[#eeeeee] border-b-2 border-[#ffa133]" : "text-[#8a8a6f]"
                     }`
                   }
                 >

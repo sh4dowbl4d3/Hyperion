@@ -153,20 +153,20 @@ export function LabPlayground({ slug, onComplete }: { slug: string; onComplete?:
   if (!endpoints && !raceHelper) return null;
 
   return (
-    <section className="mt-6 border-2 border-charcoal-ink bg-frost-white p-7 shadow-offset sm:p-9">
-      <h2 className="flex items-center gap-2.5 text-heading-sm font-medium tracking-[0.02em] text-charcoal-ink">
-        <TestTube size={22} weight="duotone" aria-hidden />
-        Playground
+    <section className="mt-6 border border-[#2a2a26] bg-[#0d0d0b] p-7 sm:p-9">
+      <h2 className="flex items-center gap-2.5 text-heading-sm font-medium tracking-[0.04em] text-[#eeeeee]">
+        <TestTube size={22} weight="duotone" className="text-[#ffa133]" aria-hidden />
+        Interactive Playground
       </h2>
-      <p className="mt-2 text-body tracking-[0.02em] text-charcoal-ink/70">
-        Drive this lab's endpoints without leaving the page. Requests use your
-        current session.
+      <p className="mt-2 text-body tracking-[0.02em] text-[#8a8a6f]">
+        Execute target payloads against this lab's endpoints directly. Requests use your
+        authenticated local session.
       </p>
 
       {raceHelper && (
-        <div className="mt-5 border-2 border-charcoal-ink bg-notebook-pale p-5">
-          <p className="text-body leading-relaxed tracking-[0.02em] text-charcoal-ink">
-            This lab needs <strong>concurrent</strong> requests to win the race.
+        <div className="mt-5 border border-[#ffa133] bg-[#1a1814] p-5">
+          <p className="text-body leading-relaxed tracking-[0.02em] text-[#eeeeee]">
+            This vulnerability requires <strong className="text-[#ffa133]">concurrent requests</strong> to exploit the race condition.
             Fire a burst of parallel redemptions:
           </p>
           <div className="mt-3 flex flex-wrap gap-3">
@@ -175,10 +175,10 @@ export function LabPlayground({ slug, onComplete }: { slug: string; onComplete?:
                 key={count}
                 onClick={() => runRaceHelper(count)}
                 disabled={busy !== null}
-                className="inline-flex items-center gap-2 rounded-[2px] border-2 border-charcoal-ink bg-canary-banner px-4 py-2 text-body-sm font-medium uppercase tracking-[0.02em] text-charcoal-ink shadow-offset transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-none border border-[#ffa133] bg-[#ffa133] px-4 py-2 text-body-sm font-medium uppercase tracking-[0.04em] text-black transition-colors hover:bg-[#e47b1a] hover:border-[#e47b1a] disabled:opacity-50"
               >
                 <Lightning size={14} weight="fill" aria-hidden />
-                {busy === "race" ? "FIRING…" : `Fire ${count}`}
+                {busy === "race" ? "FIRING…" : `Fire ${count} Concurrent`}
               </button>
             ))}
           </div>
@@ -191,14 +191,14 @@ export function LabPlayground({ slug, onComplete }: { slug: string; onComplete?:
           const key = endpoint.label;
           const paramValues = values[key] ?? {};
           return (
-            <div key={key} className="border border-graphite bg-chalk-gray p-5">
-              <p className="font-mono text-sm tracking-[0.02em] text-charcoal-ink">
-                <span className="mr-2 inline-block border border-charcoal-ink bg-frost-white px-1.5 py-0.5 text-caption uppercase text-charcoal-ink">
+            <div key={key} className="border border-[#2a2a26] bg-[#161614] p-5">
+              <p className="font-mono text-sm tracking-[0.02em] text-[#eeeeee]">
+                <span className="mr-2 inline-block border border-[#333333] bg-black px-1.5 py-0.5 text-caption uppercase text-[#ffa133]">
                   {endpoint.method}
                 </span>
                 /targets/{slug}/{endpoint.path}
               </p>
-              <p className="mt-1.5 text-sm tracking-[0.02em] text-pencil-gray">
+              <p className="mt-1.5 text-sm tracking-[0.02em] text-[#777766]">
                 {endpoint.description}
               </p>
 
@@ -206,7 +206,7 @@ export function LabPlayground({ slug, onComplete }: { slug: string; onComplete?:
                 <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {endpoint.params!.map((param) => (
                     <label key={param.name} className="flex flex-col gap-1">
-                      <span className="text-caption font-medium uppercase tracking-[0.02em] text-charcoal-ink/80">
+                      <span className="text-caption font-medium uppercase tracking-[0.04em] text-[#8a8a6f]">
                         {param.label}
                       </span>
                       <input
@@ -218,7 +218,7 @@ export function LabPlayground({ slug, onComplete }: { slug: string; onComplete?:
                             [key]: { ...prev[key], [param.name]: e.target.value },
                           }))
                         }
-                        className="h-10 rounded-[2px] border-2 border-charcoal-ink bg-frost-white px-3 font-mono text-sm tracking-[0.02em] text-charcoal-ink placeholder:text-pencil-gray focus:border-sky-crayon"
+                        className="h-10 rounded-none border border-[#333333] bg-black px-3 font-mono text-sm tracking-[0.02em] text-[#eeeeee] placeholder:text-[#555544] focus:border-[#ffa133]"
                       />
                     </label>
                   ))}
@@ -228,10 +228,10 @@ export function LabPlayground({ slug, onComplete }: { slug: string; onComplete?:
               <button
                 onClick={() => run(key, endpoint)}
                 disabled={busy !== null}
-                className="mt-3 inline-flex items-center gap-2 rounded-[2px] border-2 border-charcoal-ink bg-sky-crayon px-4 py-2 text-body-sm font-medium uppercase tracking-[0.02em] text-charcoal-ink shadow-offset transition-transform hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none disabled:opacity-50"
+                className="mt-3 inline-flex items-center gap-2 rounded-none border border-[#eeeeee] bg-[#eeeeee] px-4 py-2 text-body-sm font-medium uppercase tracking-[0.04em] text-black transition-colors hover:bg-white active:bg-[#ffa133] disabled:opacity-50"
               >
                 <Play size={13} weight="fill" aria-hidden />
-                {busy === key ? "Sending…" : "Send"}
+                {busy === key ? "Sending…" : "Send Payload"}
               </button>
 
               <ResultView result={results[key] ?? null} />
@@ -248,12 +248,12 @@ function ResultView({ result }: { result: Result | null }) {
   return (
     <pre
       aria-live="polite"
-      className={`mt-3 max-h-64 overflow-auto whitespace-pre-wrap break-all border-2 bg-frost-white px-4 py-3 font-mono text-xs leading-relaxed ${
+      className={`mt-3 max-h-64 overflow-auto whitespace-pre-wrap break-all border bg-black px-4 py-3 font-mono text-xs leading-relaxed ${
         result.status >= 200 && result.status < 300
-          ? "border-mint-sketch text-charcoal-ink"
+          ? "border-[#55ff55] text-[#55ff55]"
           : result.status === 0
-            ? "border-coral-sketch text-charcoal-ink"
-            : "border-pencil-gray text-pencil-gray"
+            ? "border-[#ff5555] text-[#ff5555]"
+            : "border-[#333333] text-[#8a8a6f]"
       }`}
     >
       {`[${result.status}] ${result.body}`}
