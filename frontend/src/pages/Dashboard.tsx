@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
 import { getProgress } from "../services/labService";
 import type { ProgressSummary } from "../types/lab";
 
 export default function Dashboard() {
-  const { user } = useAuth();
   const [summary, setSummary] = useState<ProgressSummary | null>(null);
 
   useEffect(() => {
@@ -24,37 +22,39 @@ export default function Dashboard() {
       : 0;
 
   return (
-    <div>
-      <div className="mb-2 text-[11px] uppercase tracking-[0.08em] text-[#ffa133]">
-        // TELEMETRY OVERVIEW
+    <div className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto">
+      {/* Centered Telemetry & Welcome Header */}
+      <div className="flex flex-col items-center max-w-2xl">
+        <div className="mb-2 text-[11px] uppercase tracking-[0.1em] text-[#ffa133]">
+          // SECURITY TRAINING ENVIRONMENT
+        </div>
+        <h1 className="text-[32px] font-normal uppercase leading-tight tracking-[0.04em] text-[#eeeeee] sm:text-[44px]">
+          Welcome to Hyperion
+        </h1>
+        <p className="mt-3 text-subheading tracking-[0.02em] text-[#8a8a6f]">
+          Interactive security training labs. Probe vulnerable endpoints,
+          exploit flaws, and compare with secure reference implementations.
+        </p>
       </div>
-      <h1 className="text-[28px] font-normal uppercase leading-tight tracking-[0.04em] text-[#eeeeee] sm:text-display">
-        Welcome back
-        {user ? `, ${user.email.split("@")[0]}` : ""}
-      </h1>
-      <p className="mt-3 max-w-[60ch] text-subheading tracking-[0.02em] text-[#8a8a6f]">
-        Track your training progress here. Open a lab to inspect its objective and
-        begin vulnerability testing.
-      </p>
 
-      {/* Progress card + stats — dark terminal plates */}
-      <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <div className="border border-[#2a2a26] bg-[#0d0d0b] p-6">
+      {/* Progress card + stats — center-aligned grid */}
+      <div className="mt-8 grid w-full grid-cols-1 gap-6 sm:grid-cols-3">
+        <div className="flex flex-col items-center justify-between border border-[#2a2a26] bg-[#0d0d0b] p-6 text-center">
           <p className="text-caption uppercase tracking-[0.05em] text-[#777766]">
             Overall progress
           </p>
-          <div className="mt-4 flex items-end gap-2">
+          <div className="my-3">
             <span className="text-[40px] font-medium leading-none tracking-[0.02em] text-[#eeeeee]">
               {summary ? `${pct}%` : "—"}
             </span>
           </div>
-          <div className="mt-5 h-2.5 w-full border border-[#333333] bg-[#161614]">
+          <div className="h-2 w-full border border-[#333333] bg-[#161614]">
             <div
               className="h-full bg-[#ffa133] transition-all"
               style={{ width: `${summary ? pct : 0}%` }}
             />
           </div>
-          <p className="mt-3 text-sm tracking-[0.02em] text-[#777766]">
+          <p className="mt-3 text-xs tracking-[0.02em] text-[#777766]">
             {summary ? `${summary.completed_labs} of ${summary.total_labs} labs completed` : "—"}
           </p>
         </div>
@@ -63,13 +63,13 @@ export default function Dashboard() {
         <StatCard label="CURRENT RANK" value={rankFor(summary)} />
       </div>
 
-      {/* Getting started card */}
-      <section className="mt-8 border border-[#2a2a26] bg-[#0d0d0b] p-8">
+      {/* Getting started card — center-aligned container */}
+      <section className="mt-8 w-full border border-[#2a2a26] bg-[#0d0d0b] p-8 sm:p-10 text-center">
         <h2 className="text-[22px] font-medium tracking-[0.04em] text-[#eeeeee]">
-          Getting started
+          Getting Started
         </h2>
-        <ol className="mt-6 flex flex-col gap-4 text-body leading-relaxed tracking-[0.02em] text-[#8a8a6f]">
-          <li className="flex gap-3">
+        <div className="mt-6 flex flex-col gap-4 text-body leading-relaxed tracking-[0.02em] text-[#8a8a6f] max-w-xl mx-auto text-left">
+          <div className="flex items-start gap-3">
             <Step n={1} />
             <span>
               Pick a lab from the{" "}
@@ -79,21 +79,29 @@ export default function Dashboard() {
               >
                 labs catalog
               </Link>{" "}
-              and review its target objective.
+              and inspect the target objectives.
             </span>
-          </li>
-          <li className="flex gap-3">
+          </div>
+          <div className="flex items-start gap-3">
             <Step n={2} />
-            <span>Probe the lab's target endpoints — every one has a secure twin for comparative auditing.</span>
-          </li>
-          <li className="flex gap-3">
+            <span>Probe endpoints in the interactive playground without leaving your browser.</span>
+          </div>
+          <div className="flex items-start gap-3">
             <Step n={3} />
             <span>
-              All targets run on synthetic local data. Never direct these techniques at systems you do
-              not own.
+              All targets run on synthetic data in isolated local containers.
             </span>
-          </li>
-        </ol>
+          </div>
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <Link
+            to="/labs"
+            className="inline-flex h-11 items-center justify-center border border-[#ffa133] bg-[#ffa133] px-6 text-body-sm font-medium uppercase tracking-[0.06em] text-black transition-colors hover:bg-[#e47b1a] hover:border-[#e47b1a]"
+          >
+            EXPLORE LABS CATALOG →
+          </Link>
+        </div>
       </section>
     </div>
   );
@@ -108,7 +116,7 @@ function rankFor(summary: ProgressSummary | null): string {
 
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="border border-[#2a2a26] bg-[#0d0d0b] p-6">
+    <div className="flex flex-col items-center justify-center border border-[#2a2a26] bg-[#0d0d0b] p-6 text-center">
       <p className="text-caption uppercase tracking-[0.05em] text-[#777766]">{label}</p>
       <p className="mt-4 text-heading-sm font-medium leading-none tracking-[0.02em] text-[#eeeeee]">
         {value}

@@ -1,5 +1,4 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
+import { NavLink, Outlet } from "react-router-dom";
 import { ThemeToggle } from "./ui/ThemeToggle";
 
 const navItems = [
@@ -8,14 +7,6 @@ const navItems = [
 ];
 
 export function AppShell() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  function handleLogout() {
-    logout();
-    navigate("/login", { replace: true });
-  }
-
   return (
     <div className="flex min-h-[100dvh] flex-col bg-black text-[#8a8a6f]">
       {/* Terminal top navigation bar */}
@@ -63,19 +54,7 @@ export function AppShell() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <span
-              className="hidden max-w-[180px] truncate text-caption text-[#777766] md:inline"
-              title={user?.email}
-            >
-              {user?.email}
-            </span>
             <ThemeToggle />
-            <button
-              onClick={handleLogout}
-              className="border border-[#8a8a6f] bg-transparent px-3 py-1.5 text-caption font-medium uppercase tracking-[0.04em] text-[#8a8a6f] transition-colors hover:bg-[#8a8a6f] hover:text-black active:bg-[#ffa133] active:border-[#ffa133]"
-            >
-              LOG OUT
-            </button>
           </div>
         </div>
         {/* Mobile nav row */}
