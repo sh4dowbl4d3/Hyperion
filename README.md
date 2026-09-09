@@ -1,6 +1,6 @@
 # Hyperion
 
-> Modern, intentionally vulnerable web security training platform with an authentic Departure Mono terminal interface.
+> Modern, intentionally vulnerable web security training platform.
 
 ![Hyperion Interface](screenshot/screenshot1.png)
 
