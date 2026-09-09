@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./hooks/useAuth";
-import { ThemeProvider } from "./hooks/useTheme";
 import { AppShell } from "./components/AppShell";
 import { AutoAuth } from "./components/AutoAuth";
 import Dashboard from "./pages/Dashboard";
@@ -9,10 +8,9 @@ import LabDetailPage from "./pages/LabDetail";
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <AutoAuth>
-          <Routes>
+    <AuthProvider>
+      <AutoAuth>
+        <Routes>
             <Route element={<AppShell />}>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
@@ -27,6 +25,5 @@ export default function App() {
           </Routes>
         </AutoAuth>
       </AuthProvider>
-    </ThemeProvider>
   );
 }

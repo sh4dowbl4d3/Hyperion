@@ -1,5 +1,4 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { ThemeToggle } from "./ui/ThemeToggle";
 
 const navItems = [
   { to: "/dashboard", label: "DASHBOARD" },
@@ -54,7 +53,10 @@ export function AppShell() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <ThemeToggle />
+            <span className="inline-flex items-center gap-1.5 border border-[#333333] bg-[#161614] px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.05em] text-[#8a8a6f]">
+              <span className="size-1.5 bg-[#55ff55]" aria-hidden />
+              OPERATOR
+            </span>
           </div>
         </div>
         {/* Mobile nav row */}
