@@ -1,8 +1,12 @@
 import type { ReactNode } from "react";
+import { ThemeToggle } from "../components/ui/ThemeToggle";
 
 export function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="grid min-h-[100dvh] grid-cols-1 lg:grid-cols-2 bg-black text-[#8a8a6f]">
+    <main className="relative grid min-h-[100dvh] grid-cols-1 lg:grid-cols-2 bg-black text-[#8a8a6f]">
+      <div className="absolute top-4 right-4 z-10">
+        <ThemeToggle />
+      </div>
       {/* Editorial side panel on dark terminal canvas */}
       <section className="relative hidden flex-col justify-between overflow-hidden border-r border-[#2a2a26] bg-[#0d0d0b] p-12 lg:flex xl:p-16">
         <div className="relative flex items-center gap-2.5">

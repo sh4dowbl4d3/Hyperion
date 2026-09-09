@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { ThemeToggle } from "./ui/ThemeToggle";
 
 const navItems = [
   { to: "/dashboard", label: "DASHBOARD" },
@@ -68,6 +69,7 @@ export function AppShell() {
             >
               {user?.email}
             </span>
+            <ThemeToggle />
             <button
               onClick={handleLogout}
               className="border border-[#8a8a6f] bg-transparent px-3 py-1.5 text-caption font-medium uppercase tracking-[0.04em] text-[#8a8a6f] transition-colors hover:bg-[#8a8a6f] hover:text-black active:bg-[#ffa133] active:border-[#ffa133]"
